@@ -1,6 +1,8 @@
 import React from "react";
 import Head from "next/head";
 import Hero from "../components/Hero";
+import SliderData from "../components/SliderData";
+import ImageSlider from "../components/ImageSlider";
 
 const Home = () => {
   return (
@@ -11,6 +13,7 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Hero heading="GODZ LLC" message="We are all young GODZ" />
+      <ImageSlider slides={SliderData} />
     </div>
   );
 };

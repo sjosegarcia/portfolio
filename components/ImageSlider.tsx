@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
 
 interface ImageSliderProp {
-  slides: { image: string; }[];
+  slides: {
+    image: string;
+  }[];
 }
 
 const ImageSlider = ({ slides }: ImageSliderProp) => {

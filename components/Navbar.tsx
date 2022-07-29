@@ -30,7 +30,7 @@ const Navbar = () => {
     >
       <div className="max-w-[1240px] m-auto flex justify-between items-center p-4 text-white">
         <Link href="/">
-          <h1 className={`font-bold text-4xl text-[${textColor}]`}>Captur</h1>
+          <h1 className={`font-bold text-4xl text-[${textColor}]`}>GODZ</h1>
         </Link>
         <ul className={`hidden sm:flex text-[${textColor}]`}>
           <li className="p-4">

@@ -21,6 +21,7 @@ const Sidebar: FC<SidebarProps> = ({ navRoutes }) => {
               />
             </div>
             <ul className="mt-6 space-y-2 tracking-wide">
+                
               {navRoutes?.map((sidebarItem, index) => {
                 return (
                   <>

@@ -9,8 +9,8 @@ interface SidebarProps {
 
 const Sidebar: FC<SidebarProps> = ({ navRoutes }) => {
   return (
-    <div className="fixed z-10 min-h-screen">
-      <div className="sidebar min-h-screen w-[3.35rem] hover:w-56 md:w-[20rem] overflow-hidden border-r md:hover:w-[20rem] bg-gray-100 hover:bg-white hover:shadow-lg">
+    <div className="fixed z-10 h-screen">
+      <div className="sidebar h-screen w-[3.35rem] hover:w-56 md:w-[20rem] overflow-hidden border-r md:hover:w-[20rem] bg-gray-100 hover:bg-white hover:shadow-lg">
         <div className="flex h-screen flex-col justify-between pt-2 pb-6">
           <div>
             <div className="w-max p-2.5">
@@ -21,7 +21,6 @@ const Sidebar: FC<SidebarProps> = ({ navRoutes }) => {
               />
             </div>
             <ul className="mt-6 space-y-2 tracking-wide">
-                
               {navRoutes?.map((sidebarItem, index) => {
                 return (
                   <>

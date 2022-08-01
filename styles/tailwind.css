@@ -17,6 +17,6 @@ html {
 
 @layer components {
   .sidebar {
-    transition: all 0.4s ease-in-out;
+    transition: all 0.5s ease-in-out;
   }
 }

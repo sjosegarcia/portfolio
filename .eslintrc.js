@@ -9,32 +9,20 @@ module.exports = {
   extends: [
     "standard",
     "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
+    "plugin:node/recommended",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: ["tsconfig.json", "tailwind.config.js"],
     ecmaVersion: 12,
+    project: ["tsconfig.json", "tailwind.config.js"],
   },
+  overrides: [
+    {
+      files: ["hardhat.config.js"],
+      globals: { task: true },
+    },
+  ],
   rules: {
-    indent: ["error", "tab"],
-    "prettier/prettier": [
-      2,
-      {
-        useTabs: true,
-        parser: "typescript",
-      },
-    ],
-    "no-use-before-define": "off",
-    "no-unused-vars": "off",
-    "no-console": "off",
-    "func-names": "off",
-    "no-process-exit": "off",
-    "object-shorthand": "off",
-    "class-methods-use-this": "off",
-    "no-undef": "off",
     "node/no-unsupported-features/es-syntax": [
       "error",
       { ignores: ["modules"] },

@@ -1,10 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Hero from "../components/Hero";
-import SliderData from "../components/SliderData";
-import ImageSlider from "../components/ImageSlider";
 import Services from "../components/Services";
-import Sidebar from "../components/Sidebar";
 
 const Home = () => {
   return (

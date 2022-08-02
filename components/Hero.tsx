@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 interface HeroProps {
   heading: string;
@@ -6,6 +7,10 @@ interface HeroProps {
 }
 
 const Hero = ({ heading, message }: HeroProps) => {
+  const toContact = () => {
+    return;
+  };
+
   return (
     <>
       <div className="flex items-center justify-center mb-12 bg-fixed bg-center bg-cover custom-img h-75">
@@ -14,7 +19,9 @@ const Hero = ({ heading, message }: HeroProps) => {
         <div className="p-5 text-white z-[2] mt-[-10rem]">
           <h2 className="text-5xl font-bold">{heading}</h2>
           <p className="py-5 text-xl">{message}</p>
-          <button className="px-8 py-2 border">Contact Us</button>
+          <div className="flex w-fit px-8 py-2 border">
+            <Link href="/contact">Contact Us</Link>
+          </div>
         </div>
       </div>
     </>

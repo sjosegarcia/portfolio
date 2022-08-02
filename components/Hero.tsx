@@ -7,10 +7,6 @@ interface HeroProps {
 }
 
 const Hero = ({ heading, message }: HeroProps) => {
-  const toContact = () => {
-    return;
-  };
-
   return (
     <>
       <div className="flex items-center justify-center mb-12 bg-fixed bg-center bg-cover custom-img h-75">

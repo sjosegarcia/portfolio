@@ -2,10 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "commonjs",
-    "lib": [
-      "dom",
-      "dom.iterable"
-    ],
+    "lib": ["dom", "dom.iterable"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -29,13 +26,6 @@
     "./typechain",
     "./test"
   ],
-  "exclude": [
-    "node_modules",
-    "./contracts",
-    "./public",
-    "./cache"
-  ],
-  "files": [
-    "./hardhat.config.ts"
-  ]
+  "exclude": ["node_modules", "./contracts", "./public", "./cache"],
+  "files": ["./hardhat.config.ts"]
 }

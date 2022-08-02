@@ -1,8 +1,10 @@
 import React, { FC, ReactNode } from "react";
+import Link from "next/link";
 
 interface SidebarProps {
   navRoutes?: {
-    icon: ReactNode;
+    icon?: ReactNode;
+    route: string;
     title: string;
   }[];
 }
@@ -13,21 +15,32 @@ const Sidebar: FC<SidebarProps> = ({ navRoutes }) => {
       <div className="sidebar h-screen w-[3.35rem] hover:w-56 md:w-[20rem] overflow-hidden border-r md:hover:w-[20rem] bg-gray-100 hover:bg-white hover:shadow-lg">
         <div className="flex h-screen flex-col justify-between pt-2 pb-6">
           <div>
-            <div className="w-max p-2.5">
-              <img
-                src="https://tailus.io/images/logo.svg"
-                className="w-32"
-                alt=""
-              />
+            <div>
+              <Link href="/">
+                <div className="w-max p-2.5">
+                  <img
+                    src="https://tailus.io/images/logo.svg"
+                    className="w-32"
+                    alt=""
+                  />
+                </div>
+              </Link>
             </div>
             <ul className="mt-6 space-y-2 tracking-wide">
               {navRoutes?.map((sidebarItem, index) => {
                 return (
                   <>
-                    {sidebarItem.icon}
-                    <span className="-mr-1 font-medium group-hover:text-gray-700">
-                      {sidebarItem.title}
-                    </span>
+                    <li className="min-w-max">
+                      <a
+                        href={sidebarItem.route}
+                        className="group flex items-center space-x-4 rounded-md px-4 py-3 text-gray-600"
+                      >
+                        {sidebarItem.icon}
+                        <span className="-mr-1 font-medium group-hover:text-gray-700">
+                          {sidebarItem.title}
+                        </span>
+                      </a>
+                    </li>
                   </>
                 );
               })}
@@ -60,6 +73,32 @@ const Sidebar: FC<SidebarProps> = ({ navRoutes }) => {
 };
 
 export default Sidebar;
+
+/*
+            
+            
+            
+            <div className="flex">
+                  <h1 className="font-bold text-5xl text-center ml-[0.125rem] md:hidden">
+                    G<span className="overflow-hidden">ODZ</span><span className="text-teal-600">.</span>
+                  </h1>
+                  <h1 className="hidden md:block font-bold text-sm md:text-5xl ml-[0.125rem] text-center">
+                    GODZ<span className="text-teal-600">.</span>
+                  </h1>
+                </div>
+            
+            
+            <div className="w-max p-2.5">
+
+
+
+
+              <img
+                src="https://tailus.io/images/logo.svg"
+                className="w-32"
+                alt=""
+              />
+            </div>*/
 
 /**
 

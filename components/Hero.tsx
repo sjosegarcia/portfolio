@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import Link from "next/link";
 
 interface HeroProps {
@@ -6,7 +6,7 @@ interface HeroProps {
   message: string;
 }
 
-const Hero = ({ heading, message }: HeroProps) => {
+const Hero: FC<HeroProps> = ({ heading, message }: HeroProps) => {
   return (
     <>
       <div className="flex items-center justify-center mb-12 bg-fixed bg-center bg-cover custom-img h-75">

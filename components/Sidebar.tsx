@@ -1,6 +1,6 @@
-import React from "react";
+import React, { FC } from "react";
 
-const Sidebar = () => {
+const Sidebar: FC = () => {
   return (
     <aside className="z-10 fixed w-64" aria-label="Sidebar">
       <div className="h-screen overflow-y-auto py-4 px-3 bg-gray-50 dark:bg-gray-800">

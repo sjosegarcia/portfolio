@@ -1,11 +1,14 @@
-import React from "react";
+import React, { FC } from "react";
 
-const Contact = () => {
+const Contact: FC = () => {
   return (
     <div className="max-w-[1240px] m-auto p-4 h-screen">
       <h1 className="text-2xl font-bold text-center p-4">
         Let's work together
       </h1>
+      <h2 className="text-xl font-bold text-center text-gray-700 p-1">
+        Contact
+      </h2>
       <form className="max-w-[600px] m-auto">
         <div className="grid grid-cols-2 gap-2">
           <input

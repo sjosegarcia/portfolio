@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import Head from "next/head";
 import Hero from "../components/Hero";
 import Services from "../components/Services";
 
-const Home = () => {
+const Home: FC = () => {
   return (
     <div>
       <Head>

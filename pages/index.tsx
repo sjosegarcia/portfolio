@@ -15,7 +15,6 @@ const Home: FC = () => {
         heading="GODZ LLC"
         message="Building and inspiring inner GODZ LLC, One click at a time."
       />
-      {/*<ImageSlider slides={SliderData} /> */}
       <Services />
     </div>
   );

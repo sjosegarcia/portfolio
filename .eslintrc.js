@@ -9,8 +9,8 @@ module.exports = {
   extends: [
     "standard",
     "plugin:prettier/recommended",
-    "plugin:node/recommended",
-    "eslint:recommended",
+    //"plugin:node/recommended",
+    //"eslint:recommended",
     "plugin:react/recommended",
     "next",
     //"plugin:react/jsx-runtime",

@@ -11,6 +11,8 @@ module.exports = {
     "plugin:prettier/recommended",
     //"plugin:node/recommended",
     //"eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "next",
     //"plugin:react/jsx-runtime",

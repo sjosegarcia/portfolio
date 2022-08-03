@@ -10,8 +10,10 @@ module.exports = {
     "standard",
     "plugin:prettier/recommended",
     "plugin:node/recommended",
-    //"@typescript-eslint",
+    "eslint:recommended",
     "plugin:react/recommended",
+    "next",
+    //"plugin:react/jsx-runtime",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {

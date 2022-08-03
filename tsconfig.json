@@ -24,7 +24,8 @@
     "./scripts",
     "./components",
     "./typechain",
-    "./test"
+    "./test",
+    "./services"
   ],
   "exclude": ["node_modules", "./contracts", "./public", "./cache"],
   "files": ["./hardhat.config.ts"]

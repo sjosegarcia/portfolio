@@ -6,7 +6,7 @@ const Contact: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
-  const handleSubmit = async (e: FormEvent<HTMLDivElement>) => {
+  const submitToWeb3Form = async (e: FormEvent<HTMLDivElement>) => {
     if (name.length === 0 && email.length === 0 && message.length === 0) return;
     e.preventDefault();
     const response = await fetch("https://api.web3forms.com/submit", {
@@ -78,7 +78,7 @@ const Contact: FC = () => {
             </div>
             <div
               className="mt-5 w-[12rem] rounded-md bg-black px-10 py-2 text-white text-center cursor-default hover:bg-slate-600"
-              onClick={handleSubmit}
+              onClick={submitToWeb3Form}
             >
               Send Message
             </div>

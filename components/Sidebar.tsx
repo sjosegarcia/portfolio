@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 const Sidebar: FC = () => {
   return (
-    <aside className="z-10 fixed w-64" aria-label="Sidebar">
+    <aside className="z-10 fixed w-64 h-screen" aria-label="Sidebar">
       <div className="h-screen overflow-y-auto py-4 px-3 bg-gray-50 dark:bg-gray-800">
         <ul className="space-y-2">
           <li>

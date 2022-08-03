@@ -15,9 +15,11 @@ const Hero: FC<HeroProps> = ({ heading, message }: HeroProps) => {
         <div className="p-5 text-white z-[2] mt-[-10rem]">
           <h2 className="text-5xl font-bold">{heading}</h2>
           <p className="py-5 text-xl">{message}</p>
-          <div className="flex w-fit px-8 py-2 border">
-            <Link href="/contact">Contact Us</Link>
-          </div>
+          <Link href="/contact">
+            <div className="flex w-fit px-8 py-2 border cursor-default">
+              Contact Us
+            </div>
+          </Link>
         </div>
       </div>
     </>

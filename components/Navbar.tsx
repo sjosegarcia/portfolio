@@ -1,8 +1,8 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 
-const Navbar = () => {
+const Navbar: FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [color, setColor] = useState<string>("transparent");
   const [textColor, setTextColor] = useState<string>("white");

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { RiHome7Fill } from "react-icons/ri";
+import { RiHome7Fill, RiContactsBookUploadLine } from "react-icons/ri";
 import Link from "next/link";
 import provider from "../services/connect";
 import SidebarButton from "./SidebarButton";
@@ -94,6 +94,19 @@ const Sidebar: FC = () => {
               />
               <span className="ml-3">Home</span>
             </div>
+          </Link>
+        </li>
+        <li>
+          <Link href="/contact">
+            <SidebarButton
+              text="Contact"
+              icon={
+                <RiContactsBookUploadLine
+                  size={20}
+                  className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                />
+              }
+            />
           </Link>
         </li>
         <li>

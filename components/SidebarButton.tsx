@@ -1,7 +1,7 @@
 import React, { FC, MouseEventHandler } from "react";
 
 interface SidebarButtonProps {
-  onClick: MouseEventHandler;
+  onClick?: MouseEventHandler;
   icon: JSX.Element;
   text: string;
 }

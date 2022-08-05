@@ -1,10 +1,11 @@
 import React, { FC } from "react";
 import { RiHome7Fill, RiContactsBookUploadLine } from "react-icons/ri";
 import Link from "next/link";
-import provider from "../services/connect";
 import SidebarButton from "./SidebarButton";
+import useWalletConnect from "../services/walletconnect";
 
 const Sidebar: FC = () => {
+  const [walletConnect, openWalletConnect] = useWalletConnect();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const proFeatureText = () => (
     <span className="z-10 inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
@@ -112,15 +113,15 @@ const Sidebar: FC = () => {
           </Link>
         </li>
         <li>
-          {!provider.connected ? (
+          {!walletConnect.connected ? (
             <SidebarButton
-              onClick={() => provider.enable()}
+              onClick={async () => await openWalletConnect()}
               text="Connect"
               icon={connectIcon(false)}
             />
           ) : (
             <SidebarButton
-              onClick={() => provider.disconnect()}
+              onClick={async () => await walletConnect.disconnect()}
               text="Disconnect"
               icon={connectIcon(true)}
             />

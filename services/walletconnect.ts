@@ -23,11 +23,11 @@ const useWalletConnect = (): [WalletConnectProvider, () => Promise<void>] => {
 
   const openWalletConnect = async () => {
     activate();
-    if (walletConnect)
-      try {
-        await walletConnect.enable();
-      } catch (e) {}
+    try {
+      await walletConnect.enable();
+    } catch (e) {}
   };
   return [walletConnect, openWalletConnect];
 };
+
 export default useWalletConnect;

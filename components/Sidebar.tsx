@@ -5,7 +5,8 @@ import SidebarButton from "./SidebarButton";
 import useWalletConnect from "../services/walletconnect";
 
 const Sidebar: FC = () => {
-  const [walletConnect, openWalletConnect] = useWalletConnect();
+  const [walletConnect, openWalletConnect, disconnect] = useWalletConnect();
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const proFeatureText = () => (
     <span className="z-10 inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
@@ -13,7 +14,6 @@ const Sidebar: FC = () => {
     </span>
   );
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const connectIcon = (rotate: boolean) => (
     <svg
       aria-hidden="true"
@@ -31,6 +31,23 @@ const Sidebar: FC = () => {
       ></path>
     </svg>
   );
+
+  const displayConnectButton = () => {
+    return walletConnect?.connected !== undefined &&
+      !walletConnect?.connected ? (
+      <SidebarButton
+        onClick={async () => await disconnect()}
+        text="Disconnect"
+        icon={connectIcon(true)}
+      />
+    ) : (
+      <SidebarButton
+        onClick={async () => await openWalletConnect()}
+        text="Connect"
+        icon={connectIcon(false)}
+      />
+    );
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const notificationIndicator = (notifications: number) => (
@@ -90,45 +107,35 @@ const Sidebar: FC = () => {
       <ul className="space-y-2">
         <li>
           <Link href="/">
-            <SidebarButton
-              text="Home"
-              icon={
-                <RiHome7Fill
-                  size={20}
-                  className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                />
-              }
-            />
+            <div>
+              <SidebarButton
+                text="Home"
+                icon={
+                  <RiHome7Fill
+                    size={20}
+                    className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  />
+                }
+              />
+            </div>
           </Link>
         </li>
         <li>
           <Link href="/contact">
-            <SidebarButton
-              text="Contact"
-              icon={
-                <RiContactsBookUploadLine
-                  size={20}
-                  className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                />
-              }
-            />
+            <div>
+              <SidebarButton
+                text="Contact"
+                icon={
+                  <RiContactsBookUploadLine
+                    size={20}
+                    className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  />
+                }
+              />
+            </div>
           </Link>
         </li>
-        <li>
-          {!walletConnect.connected ? (
-            <SidebarButton
-              onClick={async () => await openWalletConnect()}
-              text="Connect"
-              icon={connectIcon(false)}
-            />
-          ) : (
-            <SidebarButton
-              onClick={async () => await walletConnect.disconnect()}
-              text="Disconnect"
-              icon={connectIcon(true)}
-            />
-          )}
-        </li>
+        <li>{displayConnectButton()}</li>
       </ul>
     </div>
   );

@@ -23,8 +23,7 @@ const useWalletConnect = (): [
   };
 
   const openWalletConnect = async () => {
-    console.log(walletConnect);
-    setWalletConnect(await createWalletProvider());
+    await createWalletProvider();
     // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
     if (walletConnect) await walletConnect.enable().catch((_) => {});
   };

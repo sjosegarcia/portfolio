@@ -2,3 +2,8 @@ node_modules
 artifacts
 cache
 coverage
+next.config.js
+postcss.config.js
+settings.ts
+tailwind.config.js
+next-env.d.ts

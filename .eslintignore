@@ -7,3 +7,4 @@ postcss.config.js
 settings.ts
 tailwind.config.js
 next-env.d.ts
+.eslintrc.js

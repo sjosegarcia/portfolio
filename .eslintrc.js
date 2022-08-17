@@ -29,6 +29,7 @@ module.exports = {
     },
   ],
   rules: {
+    "no-useless-constructor": 0,
     "no-use-before-define": "off",
     "node/no-unsupported-features/es-syntax": [
       "error",

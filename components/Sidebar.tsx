@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { RiHome7Fill, RiContactsBookUploadLine } from "react-icons/ri";
 import Link from "next/link";
 import SidebarButton from "./SidebarButton";
-import useWalletConnect from "../services/walletconnect";
+import { useWalletConnect } from "../bloc/hooks/walletconnect.hook";
 
 const Sidebar: FC = () => {
   const [walletConnect, openWalletConnect, disconnect] = useWalletConnect();
@@ -33,8 +33,8 @@ const Sidebar: FC = () => {
   );
 
   const displayConnectButton = () => {
-    return walletConnect?.connected !== undefined &&
-      !walletConnect?.connected ? (
+    return walletConnect?.accounts !== undefined &&
+      walletConnect?.accounts.length > 0 ? (
       <SidebarButton
         onClick={async () => await disconnect()}
         text="Disconnect"

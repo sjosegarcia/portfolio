@@ -25,7 +25,7 @@ export const useWalletConnect = (): [
 
   useEffect(() => {
     const subscriptions: Subscription[] = [
-      /*walletConnectQuery.provider$.subscribe((provider) =>
+      walletConnectQuery.provider$.subscribe((provider) =>
         setWalletConnect((state) => ({ ...state, provider: provider }))
       ),
       walletConnectQuery.isLoading$.subscribe((isLoading) =>
@@ -33,7 +33,7 @@ export const useWalletConnect = (): [
       ),
       walletConnectQuery.error$.subscribe((error) =>
         setWalletConnect((state) => ({ ...state, error: error }))
-      ),*/
+      ),
     ];
     return () => {
       subscriptions.map((sub) => sub.unsubscribe());

@@ -26,9 +26,9 @@ export class WalletConnectService {
   };
 
   closeWalletConnect = async (): Promise<void> => {
-    //const provider = this.walletConnectStore.getValue().provider;
+    const provider = this.walletConnectStore.getValue().provider;
     this.walletConnectStore.setLoading(true);
-    //await provider?.disconnect();
+    await provider?.disconnect();
     this.walletConnectStore.update({ provider: null });
     this.walletConnectStore.setLoading(false);
   };

@@ -8,3 +8,6 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+
+const withTM = require("next-transpile-modules")(["@datorama/akita"]); // pass the modules you would like to see transpiled
+module.exports = withTM({});

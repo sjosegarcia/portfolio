@@ -33,17 +33,18 @@ const Sidebar: FC = () => {
   );
 
   const displayConnectButton = () => {
-    return !walletConnect.provider ? (
-      <SidebarButton
-        onClick={async () => await open()}
-        text="Connect"
-        icon={connectIcon(false)}
-      />
-    ) : (
+    return walletConnect.provider?.accounts !== undefined &&
+      walletConnect.provider?.accounts.length > 0 ? (
       <SidebarButton
         onClick={async () => await close()}
         text="Disconnect"
         icon={connectIcon(true)}
+      />
+    ) : (
+      <SidebarButton
+        onClick={async () => await open()}
+        text="Connect"
+        icon={connectIcon(false)}
       />
     );
   };

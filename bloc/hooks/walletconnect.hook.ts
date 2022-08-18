@@ -29,11 +29,10 @@ export const useWalletConnect = (): [
   useEffect(() => {
     const subscriptions: Subscription[] = [
       walletConnectQuery.provider$.subscribe((provider) =>
-        setWalletConnect((state) => ({
-          ...state,
-          provider: provider,
-          web3: provider ? new providers.Web3Provider(provider) : null,
-        }))
+        setWalletConnect((state) => ({ ...state, provider: provider }))
+      ),
+      walletConnectQuery.web3$.subscribe((web3) =>
+        setWalletConnect((state) => ({ ...state, web3: web3 }))
       ),
       walletConnectQuery.isLoading$.subscribe((isLoading) =>
         setWalletConnect((state) => ({ ...state, isLoading: isLoading }))

@@ -1,4 +1,5 @@
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { providers } from "ethers";
 import {
   walletConnectStore,
   WalletConnectStore,
@@ -21,7 +22,10 @@ export class WalletConnectService {
     await provider
       ?.enable()
       .catch((error) => this.walletConnectStore.setError(error));
-    this.walletConnectStore.update({ provider: provider });
+    this.walletConnectStore.update({
+      provider: provider,
+      web3: new providers.Web3Provider(provider),
+    });
     this.walletConnectStore.setLoading(false);
   };
 
@@ -29,7 +33,7 @@ export class WalletConnectService {
     const provider = this.walletConnectStore.getValue().provider;
     this.walletConnectStore.setLoading(true);
     await provider?.disconnect();
-    this.walletConnectStore.update({ provider: null });
+    this.walletConnectStore.update({ provider: null, web3: null });
     this.walletConnectStore.setLoading(false);
   };
 }

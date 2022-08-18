@@ -5,7 +5,7 @@ import SidebarButton from "./SidebarButton";
 import { useWalletConnect } from "../bloc/hooks/walletconnect.hook";
 
 const Sidebar: FC = () => {
-  const [walletConnect, openWalletConnect, disconnect] = useWalletConnect();
+  const [walletConnect, open, close] = useWalletConnect();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const proFeatureText = () => (
@@ -33,18 +33,17 @@ const Sidebar: FC = () => {
   );
 
   const displayConnectButton = () => {
-    return walletConnect?.accounts !== undefined &&
-      walletConnect?.accounts.length > 0 ? (
+    return !walletConnect.provider ? (
       <SidebarButton
-        onClick={async () => await disconnect()}
-        text="Disconnect"
-        icon={connectIcon(true)}
+        onClick={async () => await open()}
+        text="Connect"
+        icon={connectIcon(false)}
       />
     ) : (
       <SidebarButton
-        onClick={async () => await openWalletConnect()}
-        text="Connect"
-        icon={connectIcon(false)}
+        onClick={async () => await close()}
+        text="Disconnect"
+        icon={connectIcon(true)}
       />
     );
   };

@@ -26,11 +26,8 @@
     "./components",
     "./typechain",
     "./test",
-    "bloc/services",
-    "bloc/store",
-    "bloc/queries",
-    "./models",
-    "bloc/hooks"
+    "./bloc",
+    "./models"
   ],
   "exclude": ["node_modules", "./contracts", "./public", "./cache"],
   "files": ["./hardhat.config.ts"]

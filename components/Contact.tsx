@@ -32,10 +32,12 @@ const Contact: FC = () => {
     <div>
       <div className="flex min-h-screen items-center justify-start bg-white">
         <div className="mx-auto w-full max-w-lg">
-          <h1 className="text-4xl font-medium">Contact us</h1>
-          <p className="mt-3">
-            Email us at help@domain.com or message us here:
-          </p>
+          <h1 className="text-center mb-8 text-6xl Avenir font-semibold text-gray-900">
+            Contact us
+          </h1>
+          <h1 className="mb-8 text-2xl Avenir font-semibold text-gray-600 text-center">
+            Fill out the form below with your request
+          </h1>
 
           <form className="mt-10">
             <div className="grid gap-6 sm:grid-cols-2">

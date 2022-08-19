@@ -194,7 +194,7 @@ const Footer: FC = () => {
               href="/"
               className="text-md text-black transition-colors duration-300 hover:text-deep-purple-accent-400 font-semibold tracking-tight"
             >
-              © 2021 Company Inc.
+              © 2022 GODZ LLC
             </a>
           </ul>
         </div>

@@ -1,7 +1,45 @@
 import React, { FC, useState } from "react";
+import { useWalletConnect } from "../bloc/hooks/walletconnect.hook";
+import SidebarButton from "./SidebarButton";
 
 const Header: FC = () => {
+  const [walletConnect, open, close] = useWalletConnect();
   const [navbarOpen, setNavbarOpen] = useState(false);
+
+  const connectIcon = (rotate: boolean) => (
+    <svg
+      aria-hidden="true"
+      className={`flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
+        rotate ? "-rotate-180" : ""
+      }`}
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+        clipRule="evenodd"
+      ></path>
+    </svg>
+  );
+
+  const displayConnectButton = () => {
+    return walletConnect.provider?.accounts !== undefined &&
+      walletConnect.provider?.accounts.length > 0 ? (
+      <SidebarButton
+        onClick={async () => await close()}
+        text="Disconnect"
+        icon={connectIcon(true)}
+      />
+    ) : (
+      <SidebarButton
+        onClick={async () => await open()}
+        text="Connect"
+        icon={connectIcon(false)}
+      />
+    );
+  };
 
   return (
     <div className="fixed top-0 w-full z-30 clearNav md:bg-opacity-90 transition duration-300 ease-in-out">
@@ -63,24 +101,7 @@ const Header: FC = () => {
                   About Us
                 </a>
               </li>
-              <li>
-                <a
-                  className="inline-flex items-center px-4 py-2 mt-2 font-medium text-white transition duration-500 ease-in-out transform bg-transparent rounded-lg text-md md:mt-0 md:ml-4 bg-gray-900"
-                  href="/"
-                >
-                  <span className="justify-center">Connect</span>
-                  <svg
-                    className="w-3 h-3 fill-current text-gray-400 flex ml-2 -mr-1"
-                    viewBox="0 0 12 12"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z"
-                      fillRule="nonzero"
-                    />
-                  </svg>
-                </a>
-              </li>
+              <li>{displayConnectButton()}</li>
             </ul>
           </nav>
         </div>

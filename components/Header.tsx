@@ -3,7 +3,7 @@ import { useWalletConnect } from "../bloc/hooks/walletconnect.hook";
 import WalletConnectButton from "./WalletConnectButton";
 
 const Header: FC = () => {
-  const [walletConnect, open, close] = useWalletConnect();
+  const [walletConnect, open, close, isLoggedIn] = useWalletConnect();
   const [navbarOpen, setNavbarOpen] = useState(false);
 
   const connectIcon = (rotate: boolean) => (
@@ -25,8 +25,7 @@ const Header: FC = () => {
   );
 
   const displayConnectButton = () => {
-    return walletConnect.provider?.accounts !== undefined &&
-      walletConnect.provider?.accounts.length > 0 ? (
+    return isLoggedIn ? (
       <WalletConnectButton
         onClick={async () => await close()}
         text="Disconnect"

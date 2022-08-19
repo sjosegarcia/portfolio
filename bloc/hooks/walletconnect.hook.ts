@@ -15,7 +15,8 @@ interface WalletConnectHookState {
 export const useWalletConnect = (): [
   WalletConnectHookState,
   () => Promise<void>,
-  () => Promise<void>
+  () => Promise<void>,
+  boolean
 ] => {
   const [walletConnect, setWalletConnect] = useState<WalletConnectHookState>({
     provider: null,
@@ -25,6 +26,9 @@ export const useWalletConnect = (): [
   });
   const open = walletConnectService.openWalletConnect;
   const close = walletConnectService.closeWalletConnect;
+  const isLoggedIn =
+    walletConnect.provider?.accounts !== undefined &&
+    walletConnect.provider?.accounts.length > 0;
 
   useEffect(() => {
     const subscriptions: Subscription[] = [
@@ -45,5 +49,5 @@ export const useWalletConnect = (): [
       subscriptions.map((sub) => sub.unsubscribe());
     };
   }, []);
-  return [walletConnect, open, close];
+  return [walletConnect, open, close, isLoggedIn];
 };

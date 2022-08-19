@@ -79,10 +79,10 @@ const Contact: FC = () => {
               </div>
             </div>
             <div
-              className="mt-5 w-[12rem] rounded-md bg-black px-10 py-2 text-white text-center cursor-default hover:bg-slate-600"
+              className="inline-flex items-center px-14 py-3 mt-2 ml-2 font-medium text-white transition duration-500 ease-in-out transform bg-transparent border rounded-lg bg-gray-900 cursor-pointer"
               onClick={submitToWeb3Form}
             >
-              Send Message
+              <span className="justify-center">Send Message</span>
             </div>
           </form>
         </div>

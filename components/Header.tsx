@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { useWalletConnect } from "../bloc/hooks/walletconnect.hook";
-import SidebarButton from "./SidebarButton";
+import WalletConnectButton from "./WalletConnectButton";
 
 const Header: FC = () => {
   const [walletConnect, open, close] = useWalletConnect();
@@ -27,13 +27,13 @@ const Header: FC = () => {
   const displayConnectButton = () => {
     return walletConnect.provider?.accounts !== undefined &&
       walletConnect.provider?.accounts.length > 0 ? (
-      <SidebarButton
+      <WalletConnectButton
         onClick={async () => await close()}
         text="Disconnect"
         icon={connectIcon(true)}
       />
     ) : (
-      <SidebarButton
+      <WalletConnectButton
         onClick={async () => await open()}
         text="Connect"
         icon={connectIcon(false)}

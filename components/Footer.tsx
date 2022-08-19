@@ -2,213 +2,204 @@ import React, { FC } from "react";
 
 const Footer: FC = () => {
   return (
-    <div>
-      <footer className="bg-gray-800 pt-10 sm:mt-10">
-        <div className="max-w-6xl m-auto text-gray-800 flex flex-wrap justify-left">
-          <div className="p-5 w-1/2 sm:w-4/12 md:w-3/12">
-            <div className="text-xs uppercase text-gray-400 font-medium mb-6">
-              Getting Started
-            </div>
+    <footer className="pb-4">
+      <div className="max-w-6xl xl:max-w-6xl mx-auto divide-y divide-gray-200 px-4 sm:px-6 md:px-8">
+        <ul className="Footer_nav__2rFid text-sm font-medium  sm:pb-20 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10">
+          <li className="space-y-5 row-span-2">
+            <h2 className="text-sm tracking-wide text-gray-900 uppercase font-bold">
+              Company
+            </h2>
+            <ul className="space-y-4 text-md">
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  Jobs
+                </a>
+              </li>
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  Merch
+                </a>
+              </li>{" "}
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  Brand
+                </a>
+              </li>{" "}
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  Meetups
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li className="space-y-5 row-span-2">
+            <h2 className="text-sm tracking-wide text-gray-900 uppercase font-bold">
+              Newsroom
+            </h2>
+            <ul className="space-y-4">
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  News
+                </a>
+              </li>
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  Press
+                </a>
+              </li>
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  Blog
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li className="space-y-5 row-span-2">
+            <h2 className="text-sm tracking-wide text-gray-900 uppercase font-bold">
+              Products
+            </h2>
+            <ul className="space-y-4">
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  Hosting
+                </a>
+              </li>
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  Domains
+                </a>
+              </li>
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  Security
+                </a>
+              </li>
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  SSL
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li className="space-y-5">
+            <h2 className="text-sm tracking-wide text-gray-900 uppercase font-bold">
+              Connect
+            </h2>
+            <ul className="space-y-4">
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  Twitter
+                </a>
+              </li>
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                  href="/"
+                >
+                  Facebook
+                </a>
+              </li>
+              <li>
+                <a
+                  className="hover:text-gray-900 transition-colors duration-200 font-semibold text-2xl"
+                  href="/"
+                >
+                  Instagram
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <div className="flex flex-col-reverse justify-between pt-5 pb-4 border-t lg:flex-row bg-top border-black">
+          <ul className="flex flex-col space-y-2 lg:mb-0 sm:space-y-0 sm:space-x-5 sm:flex-row">
+            <li>
+              <a
+                href="/"
+                className="text-md text-black transition-colors duration-300 hover:text-deep-purple-accent-400 font-semibold"
+              >
+                Terms of Service
+              </a>
+            </li>
+            <li>
+              <a
+                href="/"
+                className="text-md text-black transition-colors duration-300 hover:text-deep-purple-accent-400 font-semibold"
+              >
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a
+                href="/"
+                className="text-md text-black transition-colors duration-300 hover:text-deep-purple-accent-400 font-semibold"
+              >
+                Ad Choices
+              </a>
+            </li>
+            <li>
+              <a
+                href="/"
+                className="text-md text-black transition-colors duration-300 hover:text-deep-purple-accent-400 font-semibold"
+              >
+                Cookie Policy
+              </a>
+            </li>
+            <li>
+              <a
+                href="/"
+                className="text-md text-black transition-colors duration-300 hover:text-deep-purple-accent-400 font-semibold"
+              >
+                Partners
+              </a>
+            </li>
+          </ul>
+          <ul className="flex flex-col mb-3 space-y-2 lg:mb-0 sm:space-y-0 sm:space-x-5 sm:flex-row">
             <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
+              href="/"
+              className="text-md text-black transition-colors duration-300 hover:text-deep-purple-accent-400 font-semibold tracking-tight"
             >
-              Installation
+              © 2021 Company Inc.
             </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Release Notes
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Upgrade Guide
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Using with Preprocessors
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Optimizing for Production
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Browser Support
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              IntelliSense
-            </a>
-          </div>
-          <div className="p-5 w-1/2 sm:w-4/12 md:w-3/12">
-            <div className="text-xs uppercase text-gray-400 font-medium mb-6">
-              Core Concepts
-            </div>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Utility-First
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Responsive Design
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Hover, Focus, & Other States
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Dark Mode
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Adding Base Styles
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Extracting Components
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Adding New Utilities
-            </a>
-          </div>
-          <div className="p-5 w-1/2 sm:w-4/12 md:w-3/12">
-            <div className="text-xs uppercase text-gray-400 font-medium mb-6">
-              Customization
-            </div>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Configuration
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Theme Configuration
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Breakpoints
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Customizing Colors
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Customizing Spacing
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Configuring Variants
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Plugins
-            </a>
-          </div>
-          <div className="p-5 w-1/2 sm:w-4/12 md:w-3/12">
-            <div className="text-xs uppercase text-gray-400 font-medium mb-6">
-              Community
-            </div>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              GitHub
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Discord
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Twitter
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              YouTube
-            </a>
-          </div>
+          </ul>
         </div>
-
-        <div className="pt-2">
-          <div
-            className="flex pb-5 px-3 m-auto pt-5 
-            border-t border-gray-500 text-gray-400 text-sm 
-            flex-col md:flex-row max-w-6xl"
-          >
-            <div className="mt-2">
-              © Copyright 2021-2022. All Rights Reserved.
-            </div>
-            {/*
-            <div className="md:flex-auto md:flex-row-reverse mt-2 flex-row flex">
-                <a href="#" className="w-6 mx-1">
-                    <i className="uil uil-facebook-f"></i>
-                </a>
-                <a href="#" className="w-6 mx-1">
-                    <i className="uil uil-twitter-alt"></i>
-                </a>
-                <a href="#" className="w-6 mx-1">
-                    <i className="uil uil-youtube"></i>
-                </a>
-                <a href="#" className="w-6 mx-1">
-                    <i className="uil uil-linkedin"></i>
-                </a>
-                <a href="#" className="w-6 mx-1">
-                    <i className="uil uil-instagram"></i>
-                </a>
-            </div>
-            */}
-          </div>
-        </div>
-      </footer>
-    </div>
+      </div>
+    </footer>
   );
 };
 

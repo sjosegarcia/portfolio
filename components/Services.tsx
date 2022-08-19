@@ -8,50 +8,12 @@ const Services: FC = () => {
     >
       <div className="container xl:max-w-6xl mx-auto px-4">
         {/* Heading start */}
-        <header className="text-center mx-auto mb-12 lg:px-20">
-          <h2 className="text-2xl leading-normal mb-2 font-bold text-black">
-            What We Do
-          </h2>
-          <svg
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            x="0px"
-            y="0px"
-            viewBox="0 0 100 60"
-            style={{ margin: "0 auto", height: "35px" }}
-          >
-            <circle
-              cx="50.1"
-              cy="30.4"
-              r="5"
-              className="stroke-primary"
-              style={{
-                fill: "transparent",
-                strokeWidth: "2",
-                strokeMiterlimit: "10",
-              }}
-            ></circle>
-            <line
-              x1="55.1"
-              y1="30.4"
-              x2="100"
-              y2="30.4"
-              className="stroke-primary"
-              style={{ strokeWidth: "2", strokeMiterlimit: "10" }}
-            ></line>
-            <line
-              x1="45.1"
-              y1="30.4"
-              x2="0"
-              y2="30.4"
-              className="stroke-primary"
-              style={{ strokeWidth: "2", strokeMiterlimit: "10" }}
-            ></line>
-          </svg>
-          <p className="text-gray-500 leading-relaxed font-light text-xl mx-auto pb-2">
-            Save time managing advertising &amp; Content for your business.
-          </p>
-        </header>
+        <h1 className="text-center mb-8 text-6xl Avenir font-semibold text-gray-900">
+          Less code, less effort.
+        </h1>
+        <h1 className="mb-8 text-2xl Avenir font-semibold text-gray-600 text-center">
+          Save time managing advertising & content for your business.
+        </h1>
         {/* End heading */}
         {/* row */}
         <div className="flex flex-wrap flex-row -mx-4 text-center">

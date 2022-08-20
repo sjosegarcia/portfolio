@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import Newsletter from "./Newsletter";
 import Services from "./Services";
+import Image from "next/image";
 
 const Hero: FC = () => {
   return (
@@ -23,11 +24,11 @@ const Hero: FC = () => {
           </div>
         </div>
         <div className="xl:mr-44 sm:mr-0 sm:mb-28 mb-0 lg:mb-0 mr-48 md:pl-10">
-          <img
+          <Image
             className="w-80 md:ml-1 ml-24"
             alt="iPhone-12"
             src="/images/iPhone-12-Mockup.png"
-          ></img>
+          />
         </div>
       </div>
       <Services />

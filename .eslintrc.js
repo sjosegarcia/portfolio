@@ -33,7 +33,7 @@ module.exports = {
     "no-use-before-define": "off",
     "node/no-unsupported-features/es-syntax": [
       "error",
-      { version: 10, ignores: ["modules"] },
+      { version: "10", ignores: ["modules"] },
     ],
   },
 };

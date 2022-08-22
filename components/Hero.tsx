@@ -3,6 +3,7 @@ import Newsletter from "./Newsletter";
 import Services from "./Services";
 import Image from "next/image";
 import Contact from "./Contact";
+import HeroButton from "./HeroButton";
 
 const Hero: FC = () => {
   return (
@@ -15,24 +16,15 @@ const Hero: FC = () => {
           <p className="mb-4 xl:w-3/4 text-gray-600 text-lg">
             Building and inspiring inner GODZ LLC, One click at a time
           </p>
-          <div className="flex justify-center">
-            <a
-              className="inline-flex items-center px-5 py-3 mt-2 font-medium text-white transition duration-500 ease-in-out transform bg-transparent border rounded-lg bg-gray-900"
-              href="https://github.com/r1/nine4-2/"
-            >
-              <span className="justify-center">Find out more</span>
-            </a>
-          </div>
+          <HeroButton url="/" text="Find out more" />
         </div>
-        <div className="">
-          <Image
-            alt="iPhone-12"
-            src="/images/iPhone-12-Mockup.png"
-            className="w-80 md:ml-1 ml-24"
-            width={450}
-            height={800}
-          />
-        </div>
+        <Image
+          alt="iPhone-12"
+          src="/images/iPhone-12-Mockup.png"
+          className="w-80 md:ml-1 ml-24"
+          width={450}
+          height={800}
+        />
       </div>
       <Services />
       {/*      

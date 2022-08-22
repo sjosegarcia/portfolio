@@ -155,7 +155,7 @@ const Services: FC = () => {
               </h3>
               <p className="text-gray-500">
                 What is my business about? Should I have multiple side hustles?
-                Or focus on a few I am good at?
+                Or focus on a few?
               </p>
             </div>
             {/* end service block */}
@@ -226,7 +226,8 @@ const Services: FC = () => {
                 Optimize conversions
               </h3>
               <p className="text-gray-500">
-                Filter out uncessary noise. Is it worth engaging in conversions?
+                Filter out uncessary noise. Is it worth my time engaging in
+                conversion?
               </p>
             </div>
             {/* end service block */}

@@ -45,8 +45,8 @@ const Services: FC = () => {
                 SEO Services
               </h3>
               <p className="text-gray-500">
-                This is a wider card with supporting text below as a natural
-                content.
+                Search Engine Optimization. Helps stand out on search results
+                like DuckDuckGo and Google
               </p>
             </div>
             {/* end service block */}
@@ -82,8 +82,8 @@ const Services: FC = () => {
                 Social Content
               </h3>
               <p className="text-gray-500">
-                This is a wider card with supporting text below as a natural
-                content.
+                We help find your target audience. Why should we bother looking
+                at your page?
               </p>
             </div>
             {/* end service block */}
@@ -119,8 +119,8 @@ const Services: FC = () => {
                 Creative ads
               </h3>
               <p className="text-gray-500">
-                This is a wider card with supporting text below as a natural
-                content.
+                How to present your product and business. Is it worth knowing
+                who you are?
               </p>
             </div>
             {/* end service block */}
@@ -154,8 +154,8 @@ const Services: FC = () => {
                 Brand Identity
               </h3>
               <p className="text-gray-500">
-                This is a wider card with supporting text below as a natural
-                content.
+                What is my business about? Should I have multiple side hustles?
+                Or focus on a few I am good at?
               </p>
             </div>
             {/* end service block */}
@@ -190,8 +190,8 @@ const Services: FC = () => {
                 Budget &amp; Marketing
               </h3>
               <p className="text-gray-500">
-                This is a wider card with supporting text below as a natural
-                content.
+                How much should I spend on marketing? If I spend this much, how
+                many people will I reach?
               </p>
             </div>
             {/* end service block */}
@@ -226,8 +226,7 @@ const Services: FC = () => {
                 Optimize conversions
               </h3>
               <p className="text-gray-500">
-                This is a wider card with supporting text below as a natural
-                content.
+                Filter out uncessary noise. Is it worth engaging in conversions?
               </p>
             </div>
             {/* end service block */}

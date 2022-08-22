@@ -23,12 +23,14 @@ const Hero: FC = () => {
             </a>
           </div>
         </div>
-        <div className="xl:mr-44 sm:mr-0 sm:mb-28 mb-0 lg:mb-0 mr-48 md:pl-10">
-          <img
-            className="w-80 md:ml-1 ml-24"
+        <div className="">
+          <Image
             alt="iPhone-12"
             src="/images/iPhone-12-Mockup.png"
-          ></img>
+            className="w-80 md:ml-1 ml-24"
+            width={450}
+            height={800}
+          />
         </div>
       </div>
       <Services />

@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import Newsletter from "./Newsletter";
 import Services from "./Services";
 import Image from "next/image";
+import Contact from "./Contact";
 
 const Hero: FC = () => {
   return (
@@ -75,6 +76,7 @@ const Hero: FC = () => {
         </div>
       </section>
       */}
+      <Contact />
       <Newsletter />
     </section>
   );

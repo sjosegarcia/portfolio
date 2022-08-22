@@ -29,8 +29,8 @@ const Contact: FC = () => {
   };
 
   return (
-    <div>
-      <div className="flex min-h-screen items-center justify-start bg-white">
+    <div id="contact">
+      <div className="flex items-center justify-start bg-white">
         <div className="mx-auto w-full max-w-lg">
           <h1 className="text-center mb-8 text-6xl Avenir font-semibold text-gray-900">
             Contact us

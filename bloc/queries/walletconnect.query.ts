@@ -16,11 +16,13 @@ export class WalletConnectQuery extends Query<WalletConnectState> {
     );
     return newAccounts;
   });
+
   chain$ = this.select((state) => {
-    let newChainId: number = -1;
+    let newChainId = -1;
     state.web3?.on("chainChanged", (chainId: number) => (newChainId = chainId));
     return newChainId;
   });
+
   error$ = this.selectError();
   isLoading$ = this.selectLoading();
   constructor(protected store: WalletConnectStore) {

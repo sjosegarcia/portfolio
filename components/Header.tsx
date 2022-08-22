@@ -4,7 +4,7 @@ import { useWalletConnect } from "../bloc/hooks/walletconnect.hook";
 import WalletConnectButton from "./WalletConnectButton";
 
 const Header: FC = () => {
-  const [walletConnect, open, close, isLoggedIn] = useWalletConnect();
+  const [, open, close, isLoggedIn] = useWalletConnect();
   const [navbarOpen, setNavbarOpen] = useState(false);
 
   const connectIcon = (rotate: boolean) => (

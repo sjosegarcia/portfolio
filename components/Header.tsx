@@ -1,11 +1,13 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { FC, useState } from "react";
 import { useWalletConnect } from "../bloc/hooks/walletconnect.hook";
 import WalletConnectButton from "./WalletConnectButton";
 
 const Header: FC = () => {
-  const [, open, close, isLoggedIn] = useWalletConnect();
+  const [walletconnect, open, close, isLoggedIn] = useWalletConnect();
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const router = useRouter();
 
   const connectIcon = (rotate: boolean) => (
     <svg
@@ -28,13 +30,19 @@ const Header: FC = () => {
   const displayConnectButton = () => {
     return isLoggedIn ? (
       <WalletConnectButton
-        onClick={async () => await close()}
+        onClick={async () => {
+          await close();
+          router.push("/");
+        }}
         text="Disconnect"
         icon={connectIcon(true)}
       />
     ) : (
       <WalletConnectButton
-        onClick={async () => await open()}
+        onClick={async () => {
+          await open();
+          if (walletconnect.provider?.isConnecting) router.push("/dashboard");
+        }}
         text="Connect"
         icon={connectIcon(false)}
       />

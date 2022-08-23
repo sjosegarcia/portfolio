@@ -1,8 +1,5 @@
 import React, { FC } from "react";
-import Newsletter from "./Newsletter";
-import Services from "./Services";
 import Image from "next/image";
-import Contact from "./Contact";
 import HeroButton from "./HeroButton";
 
 const Hero: FC = () => {
@@ -28,7 +25,7 @@ const Hero: FC = () => {
           />
         </div>
       </div>
-      <Services />
+
       {/*      
       <section className="mx-auto">
         <div className="container px-5 mx-auto lg:px-24 ">
@@ -70,8 +67,6 @@ const Hero: FC = () => {
         </div>
       </section>
       */}
-      <Contact />
-      <Newsletter />
     </section>
   );
 };

@@ -45,7 +45,7 @@ const Contact: FC = () => {
               type="name"
               autoComplete="name"
               onChange={(e) => setName(e.currentTarget.value)}
-              className="border border-gray-600 w-1/3 pr-2 pl-2 py-3 mt-2 rounded-md text-gray-800 font-semibold hover:border-gray-900"
+              className="border border-gray-600 w-1/2 pr-2 pl-2 py-3 mt-2 rounded-md text-gray-800 font-semibold hover:border-gray-900"
             ></input>
           </ul>
           <ul>
@@ -55,14 +55,14 @@ const Contact: FC = () => {
               type="email"
               autoComplete="email"
               onChange={(e) => setEmail(e.currentTarget.value)}
-              className="border border-gray-600 w-1/3 pr-2 pl-2 py-3 mt-2 rounded-md text-gray-800 font-semibold hover:border-gray-900"
+              className="border border-gray-600 w-1/2 pr-2 pl-2 py-3 mt-2 rounded-md text-gray-800 font-semibold hover:border-gray-900"
             ></input>
           </ul>
           <ul>
             <textarea
               name="message"
               rows={5}
-              className="border border-gray-600 w-1/3 pr-2 pl-2 py-3 mt-2 rounded-md text-gray-800 font-semibold hover:border-gray-900"
+              className="border border-gray-600 w-1/2 pr-2 pl-2 py-3 mt-2 rounded-md text-gray-800 font-semibold hover:border-gray-900"
               placeholder="Type your message"
               onChange={(e) => setMessage(e.currentTarget.value)}
             ></textarea>

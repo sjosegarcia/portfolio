@@ -30,61 +30,51 @@ const Contact: FC = () => {
 
   return (
     <div id="contact">
-      <div className="flex items-center justify-start bg-white">
-        <div className="mx-auto w-full max-w-lg">
+      <div className="flex flex-col text-center justify-start bg-white">
+        <div className="mx-auto w-full max-w-6xl">
           <h1 className="text-center mb-8 text-6xl Avenir font-semibold text-gray-900">
             Contact us
           </h1>
           <h1 className="mb-8 text-2xl Avenir font-semibold text-gray-600 text-center">
             Fill out the form below with your request
           </h1>
-
-          <form className="mt-10">
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="relative z-0">
-                <input
-                  type="text"
-                  name="name"
-                  className="peer block w-full appearance-none border-0 border-b border-gray-500 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-                  placeholder=" "
-                  onChange={(e) => setName(e.currentTarget.value)}
-                />
-                <label className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:dark:text-blue-500">
-                  Your name
-                </label>
-              </div>
-              <div className="relative z-0">
-                <input
-                  type="text"
-                  name="email"
-                  className="peer block w-full appearance-none border-0 border-b border-gray-500 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-                  placeholder=" "
-                  onChange={(e) => setEmail(e.currentTarget.value)}
-                />
-                <label className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:dark:text-blue-500">
-                  Your email
-                </label>
-              </div>
-              <div className="relative z-0 col-span-2">
-                <textarea
-                  name="message"
-                  rows={5}
-                  className="peer block w-full appearance-none border-0 border-b border-gray-500 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-                  placeholder=" "
-                  onChange={(e) => setMessage(e.currentTarget.value)}
-                ></textarea>
-                <label className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:dark:text-blue-500">
-                  Your message
-                </label>
-              </div>
-            </div>
+          <ul>
+            <input
+              placeholder="Big Papi"
+              name="name"
+              type="name"
+              autoComplete="name"
+              onChange={(e) => setName(e.currentTarget.value)}
+              className="border border-gray-600 w-1/3 pr-2 pl-2 py-3 mt-2 rounded-md text-gray-800 font-semibold hover:border-gray-900"
+            ></input>
+          </ul>
+          <ul>
+            <input
+              placeholder="bigpapi@papalon.com"
+              name="email"
+              type="email"
+              autoComplete="email"
+              onChange={(e) => setEmail(e.currentTarget.value)}
+              className="border border-gray-600 w-1/3 pr-2 pl-2 py-3 mt-2 rounded-md text-gray-800 font-semibold hover:border-gray-900"
+            ></input>
+          </ul>
+          <ul>
+            <textarea
+              name="message"
+              rows={5}
+              className="border border-gray-600 w-1/3 pr-2 pl-2 py-3 mt-2 rounded-md text-gray-800 font-semibold hover:border-gray-900"
+              placeholder="Type your message"
+              onChange={(e) => setMessage(e.currentTarget.value)}
+            ></textarea>
+          </ul>
+          <ul>
             <div
               className="inline-flex items-center px-14 py-3 mt-2 ml-2 font-medium text-white transition duration-500 ease-in-out transform bg-transparent border rounded-lg bg-gray-900 cursor-pointer"
               onClick={submitToWeb3Form}
             >
-              <span className="justify-center">Send Message</span>
+              <span className="justify-center">Submit</span>
             </div>
-          </form>
+          </ul>
         </div>
       </div>
     </div>

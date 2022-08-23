@@ -85,14 +85,14 @@ const Header: FC = () => {
           <nav className="flex-col flex-grow ">
             <ul className="flex flex-grow justify-end flex-wrap items-center">
               <li>
-                <Link href="#services">
+                <Link href="/#services">
                   <div className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out cursor-pointer">
                     Services
                   </div>
                 </Link>
               </li>
               <li>
-                <Link href="#contact">
+                <Link href="/#contact">
                   <div className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out cursor-pointer">
                     Contact Us
                   </div>

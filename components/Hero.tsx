@@ -18,13 +18,15 @@ const Hero: FC = () => {
           </p>
           <HeroButton url="/" text="Find out more" />
         </div>
-        <Image
-          alt="iPhone-12"
-          src="/images/iPhone-12-Mockup.png"
-          className="w-80 md:ml-1 ml-24"
-          width={450}
-          height={800}
-        />
+        <div className="relative">
+          <Image
+            alt="iphone-btc"
+            src="/images/iphone-btc.png"
+            className="absolute h-[20vh] w-[30vh] object-cover object-right mx-44 mt-44 sm:mx-72 sm:mt-72"
+            width={450}
+            height={800}
+          />
+        </div>
       </div>
       <Services />
       {/*      

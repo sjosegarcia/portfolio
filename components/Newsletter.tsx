@@ -11,7 +11,7 @@ const Newsletter: FC = () => {
           Enter your email address and get our newsletters straight away.
         </h1>
         <input
-          placeholder="jack@example.com"
+          placeholder="bigpapi@papalon.com"
           name="email"
           type="email"
           autoComplete="email"

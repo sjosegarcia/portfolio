@@ -5,7 +5,7 @@ const Services: FC = () => {
   const services: ServicesCardProp[] = [
     {
       title: "SEO Services",
-      body: "Search Engine Optimization. Stand out on search results like DuckDuckGo and Google",
+      body: "Search Engine Optimization. Stand out on search engines like DuckDuckGo and Google",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +88,7 @@ const Services: FC = () => {
     },
     {
       title: "Optimize conversions",
-      body: "Filter out uncessary noise. Is it worth my time engaging in conversion?",
+      body: "Filter out unnecessary noise. Is it worth my time engaging in conversion?",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

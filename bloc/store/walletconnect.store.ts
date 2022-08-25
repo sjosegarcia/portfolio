@@ -12,7 +12,7 @@ const createInitialState: WalletConnectState = {
   web3: null,
 };
 
-@StoreConfig({ name: "walletconnect" })
+@StoreConfig({ name: "walletconnect", resettable: true })
 export class WalletConnectStore extends Store<WalletConnectState> {
   constructor() {
     super(createInitialState);

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { FC, useState } from "react";
 import { useWalletConnect } from "../bloc/hooks/walletconnect.hook";
-import WalletAddressBox from "./WalletAddressBox";
+import WalletAddressDropDown from "./WalletAddressDropDown";
 import WalletConnectButton from "./WalletConnectButton";
 
 const Header: FC = () => {
@@ -65,15 +65,15 @@ const Header: FC = () => {
                 </Link>
               </li>
               <li>
-                <WalletAddressBox
+                <WalletAddressDropDown
                   address={walletconnect.provider?.accounts[0]}
+                  onDisconnect={async () => await onClose()}
                 />
               </li>
               <li>
                 <WalletConnectButton
                   isLoggedIn={isLoggedIn}
                   onOpen={async () => await onOpen()}
-                  onClose={async () => await onClose()}
                 />
               </li>
             </ul>

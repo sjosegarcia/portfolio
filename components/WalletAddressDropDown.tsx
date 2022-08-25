@@ -33,9 +33,8 @@ const WalletAddressDropDown: FC<WalletAddressBoxProps> = ({
               {({ active }) => (
                 <div
                   className={
-                    active
-                      ? "bg-gray-600 text-white block px-4 py-2 text-md cursor-pointer"
-                      : "text-white block px-4 py-2 text-md cursor-pointer"
+                    (active ? "bg-gray-600 " : "") +
+                    "text-white block px-4 py-2 text-md cursor-pointer"
                   }
                 >
                   <Link href="/dashboard">Dashboard</Link>
@@ -48,9 +47,8 @@ const WalletAddressDropDown: FC<WalletAddressBoxProps> = ({
               {({ active }) => (
                 <div
                   className={
-                    active
-                      ? "bg-gray-600 text-white block px-4 py-2 text-md cursor-pointer"
-                      : "text-white block px-4 py-2 text-md cursor-pointer"
+                    (active ? "bg-gray-600 " : "") +
+                    "text-white block px-4 py-2 text-md cursor-pointer"
                   }
                   onClick={onDisconnect}
                 >

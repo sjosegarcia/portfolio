@@ -23,8 +23,8 @@ export const useWalletConnect = (): [
     isLoading: false,
     error: null,
   });
-  const open = walletConnectService.openWalletConnect;
-  const close = walletConnectService.closeWalletConnect;
+  const onOpen = walletConnectService.openWalletConnect;
+  const onClose = walletConnectService.closeWalletConnect;
   const isLoggedIn =
     walletConnect.provider?.accounts !== undefined &&
     walletConnect.provider?.accounts.length > 0;
@@ -48,5 +48,5 @@ export const useWalletConnect = (): [
       subscriptions.map((sub) => sub.unsubscribe());
     };
   }, []);
-  return [walletConnect, open, close, isLoggedIn];
+  return [walletConnect, onOpen, onClose, isLoggedIn];
 };

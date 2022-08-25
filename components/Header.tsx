@@ -1,54 +1,12 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { FC, useState } from "react";
 import { useWalletConnect } from "../bloc/hooks/walletconnect.hook";
+import WalletAddressBox from "./WalletAddressBox";
 import WalletConnectButton from "./WalletConnectButton";
 
 const Header: FC = () => {
-  const [walletconnect, open, close, isLoggedIn] = useWalletConnect();
+  const [walletconnect, onOpen, onClose, isLoggedIn] = useWalletConnect();
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const router = useRouter();
-
-  const connectIcon = (rotate: boolean) => (
-    <svg
-      aria-hidden="true"
-      className={`flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
-        rotate ? "-rotate-180" : ""
-      }`}
-      fill="currentColor"
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        fillRule="evenodd"
-        d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-        clipRule="evenodd"
-      ></path>
-    </svg>
-  );
-
-  const displayConnectButton = () => {
-    return isLoggedIn ? (
-      <WalletConnectButton
-        onClick={async () => {
-          await close();
-          router.push("/");
-        }}
-        text="Disconnect"
-        icon={connectIcon(true)}
-      />
-    ) : (
-      <WalletConnectButton
-        onClick={async () => {
-          await open();
-          if (walletconnect.provider?.isConnecting) router.push("/dashboard");
-        }}
-        text="Connect"
-        icon={connectIcon(false)}
-      />
-    );
-  };
-
   return (
     <div className="fixed top-0 w-full z-30 clearNav md:bg-opacity-90 transition duration-300 ease-in-out">
       <div className="flex flex-col max-w-6xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
@@ -106,7 +64,18 @@ const Header: FC = () => {
                   </div>
                 </Link>
               </li>
-              <li>{displayConnectButton()}</li>
+              <li>
+                <WalletAddressBox
+                  address={walletconnect.provider?.accounts[0]}
+                />
+              </li>
+              <li>
+                <WalletConnectButton
+                  isLoggedIn={isLoggedIn}
+                  onOpen={async () => await onOpen()}
+                  onClose={async () => await onClose()}
+                />
+              </li>
             </ul>
           </nav>
         </div>

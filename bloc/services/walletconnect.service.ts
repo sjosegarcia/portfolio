@@ -4,7 +4,6 @@ import {
   walletConnectStore,
   WalletConnectStore,
 } from "../store/walletconnect.store";
-import { resetStores } from "@datorama/akita";
 
 export class WalletConnectService {
   constructor(private walletConnectStore: WalletConnectStore) {}
@@ -34,7 +33,7 @@ export class WalletConnectService {
     const provider = this.walletConnectStore.getValue().provider;
     this.walletConnectStore.setLoading(true);
     await provider?.disconnect();
-    resetStores();
+    this.walletConnectStore.update({ provider: null, web3: null });
     this.walletConnectStore.setLoading(false);
   };
 }

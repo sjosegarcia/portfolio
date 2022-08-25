@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Subscription } from "rxjs/internal/Subscription";
 import { walletConnectQuery } from "../queries/walletconnect.query";
 import { walletConnectService } from "../services/walletconnect.service";
-
 interface WalletConnectHookState {
   provider: WalletConnectProvider | null;
   web3: providers.Web3Provider | null;
@@ -31,6 +30,7 @@ export const useWalletConnect = (): [
     walletConnect.provider?.accounts.length > 0;
 
   useEffect(() => {
+    if (localStorage.getItem("isWalletConnected") === "true") open();
     const subscriptions: Subscription[] = [
       walletConnectQuery.provider$.subscribe((provider) =>
         setWalletConnect((state) => ({ ...state, provider: provider }))

@@ -22,7 +22,6 @@ export class WalletConnectService {
     await provider
       ?.enable()
       .catch((error) => this.walletConnectStore.setError(error));
-    localStorage.setItem("isWalletConnected", "true");
     this.walletConnectStore.update({
       provider: provider,
       web3: new providers.Web3Provider(provider),
@@ -34,7 +33,6 @@ export class WalletConnectService {
     const provider = this.walletConnectStore.getValue().provider;
     this.walletConnectStore.setLoading(true);
     await provider?.disconnect();
-    localStorage.setItem("isWalletConnected", "false");
     this.walletConnectStore.update({ provider: null, web3: null });
     this.walletConnectStore.setLoading(false);
   };

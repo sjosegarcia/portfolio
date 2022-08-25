@@ -30,7 +30,6 @@ export const useWalletConnect = (): [
     walletConnect.provider?.accounts.length > 0;
 
   useEffect(() => {
-    if (localStorage.getItem("isWalletConnected") === "true") open();
     const subscriptions: Subscription[] = [
       walletConnectQuery.provider$.subscribe((provider) =>
         setWalletConnect((state) => ({ ...state, provider: provider }))

@@ -31,6 +31,7 @@ module.exports = {
   rules: {
     "no-useless-constructor": 0,
     "no-use-before-define": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "node/no-unsupported-features/es-syntax": [
       "error",
       { version: "10", ignores: ["modules"] },

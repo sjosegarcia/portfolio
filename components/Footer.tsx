@@ -139,7 +139,7 @@ const Footer: FC = () => {
               <li>
                 <Link
                   className="hover:text-gray-900 transition-colors duration-200 font-semibold text-2xl"
-                  href="/"
+                  href="https://www.instagram.com/godz.llc/"
                 >
                   Instagram
                 </Link>

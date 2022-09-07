@@ -8,6 +8,7 @@ interface WalletConnectHookState {
   chainId: number;
   account: string;
   isLoading: boolean;
+  isConnected: boolean | undefined;
   error: any;
 }
 
@@ -22,6 +23,7 @@ export const useWalletConnect = (): [
     chainId: -1,
     account: "",
     isLoading: false,
+    isConnected: undefined,
     error: null,
   });
   const onOpen = walletConnectService.openWalletConnect;
@@ -47,6 +49,9 @@ export const useWalletConnect = (): [
       ),
       walletConnectQuery.error$.subscribe((error) =>
         setWalletConnect((state) => ({ ...state, error: error }))
+      ),
+      walletConnectQuery.isConnected$.subscribe((isConnected) =>
+        setWalletConnect((state) => ({ ...state, isConnected: isConnected }))
       ),
     ];
 

@@ -1,15 +1,16 @@
 import { Store, StoreConfig } from "@datorama/akita";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { providers } from "ethers";
 
 export interface WalletConnectState {
   provider: WalletConnectProvider | null;
-  web3: providers.Web3Provider | null;
+  chainId: number;
+  account: string;
 }
 
 const createInitialState: WalletConnectState = {
   provider: null,
-  web3: null,
+  chainId: -1,
+  account: "",
 };
 
 @StoreConfig({ name: "walletconnect" })

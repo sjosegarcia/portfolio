@@ -25,11 +25,9 @@ const Header: FC = () => {
           onClick={() => setNavbarOpen(!navbarOpen)}
         >
           <span className="justify-center">
-            {walletconnect.provider?.accounts[0]
+            {walletconnect.account.length > 0
               ? shortenAddress(
-                  walletconnect.provider?.accounts[0]
-                    ? walletconnect.provider?.accounts[0]
-                    : ""
+                  walletconnect.account.length > 0 ? walletconnect.account : ""
                 )
               : ""}
           </span>

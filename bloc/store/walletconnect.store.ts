@@ -3,14 +3,14 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 
 export interface WalletConnectState {
   provider: WalletConnectProvider | null;
-  chainId: number;
-  account: string;
+  chainId: number | null;
+  account: string | null;
 }
 
 const createInitialState: WalletConnectState = {
   provider: null,
-  chainId: -1,
-  account: "",
+  chainId: null,
+  account: null,
 };
 
 @StoreConfig({ name: "walletconnect" })

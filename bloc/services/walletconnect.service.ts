@@ -27,8 +27,8 @@ export class WalletConnectService {
     await provider?.disconnect();
     this.walletConnectStore.update({
       provider: null,
-      account: "",
-      chainId: -1,
+      account: null,
+      chainId: null,
     });
     this.walletConnectStore.setLoading(false);
   };
@@ -43,8 +43,8 @@ export class WalletConnectService {
     provider?.connector.on("disconnect", (_error, payload) => {
       this.walletConnectStore.update({
         provider: null,
-        account: "",
-        chainId: -1,
+        account: null,
+        chainId: null,
       });
     });
     provider?.connector.on("session_update", (_error, payload) => {

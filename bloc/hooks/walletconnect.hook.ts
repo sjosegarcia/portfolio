@@ -5,11 +5,11 @@ import { walletConnectQuery } from "../queries/walletconnect.query";
 import { walletConnectService } from "../services/walletconnect.service";
 interface WalletConnectHookState {
   provider: WalletConnectProvider | null;
-  chainId: number;
-  account: string;
-  isLoading: boolean;
-  isConnected: boolean | undefined;
-  error: any;
+  chainId: number | null;
+  account: string | null;
+  isLoading: boolean | null;
+  isConnected?: boolean | null;
+  error: any | null;
 }
 
 export const useWalletConnect = (): [
@@ -20,10 +20,10 @@ export const useWalletConnect = (): [
 ] => {
   const [walletConnect, setWalletConnect] = useState<WalletConnectHookState>({
     provider: null,
-    chainId: -1,
-    account: "",
-    isLoading: false,
-    isConnected: undefined,
+    chainId: null,
+    account: null,
+    isLoading: null,
+    isConnected: null,
     error: null,
   });
   const onOpen = walletConnectService.openWalletConnect;

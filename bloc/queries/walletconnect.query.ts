@@ -7,12 +7,6 @@ import {
 
 export class WalletConnectQuery extends Query<WalletConnectState> {
   provider$ = this.select((state) => state.provider);
-  isConnected$ = this.select((state) => state.provider?.connected);
-  walletData$ = this.select([
-    (state) => state.chainId,
-    (state) => state.account,
-  ]);
-
   error$ = this.selectError();
   isLoading$ = this.selectLoading();
   constructor(protected store: WalletConnectStore) {

@@ -22,13 +22,13 @@ export class WalletConnectService {
   };
 
   closeWalletConnect = async (): Promise<void> => {
-    const provider = this.walletConnectStore.getValue().provider;
+    const walletConnectState = this.walletConnectStore.getValue();
     this.walletConnectStore.setLoading(true);
-    await provider?.disconnect();
+    await walletConnectState?.provider?.disconnect();
     this.walletConnectStore.update({
       provider: null,
-      account: null,
-      chainId: null,
+      error: null,
+      isLoading: null,
     });
     this.walletConnectStore.setLoading(false);
   };
@@ -43,23 +43,25 @@ export class WalletConnectService {
     provider?.connector.on("disconnect", (_error, payload) => {
       this.walletConnectStore.update({
         provider: null,
-        account: null,
-        chainId: null,
+        error: null,
+        isLoading: null,
       });
     });
     provider?.connector.on("session_update", (_error, payload) => {
       const { chainId, accounts } = payload.params[0];
-      this.walletConnectStore.update({
+      this.walletConnectStore.update((state) => ({
+        ...state,
         provider: provider,
         account: accounts[0],
         chainId: chainId,
-      });
+      }));
     });
-    this.walletConnectStore.update({
+    this.walletConnectStore.update((state) => ({
+      ...state,
       provider: provider,
       account: provider.accounts[0],
       chainId: provider.chainId,
-    });
+    }));
     return provider;
   };
 }

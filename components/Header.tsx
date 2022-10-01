@@ -9,12 +9,13 @@ import {
 import { shortenAddress } from "../settings";
 
 const Header: FC = () => {
-  const [walletconnect, onOpen, onClose, isLoggedIn] = useWalletConnect();
+  const walletConnect = useWalletConnect();
+  const walletConnectState = walletConnect.state;
   const [navbarOpen, setNavbarOpen] = useState(false);
 
   const loginFlow = () =>
     !navbarOpen ? (
-      !isLoggedIn ? (
+      !walletConnect.isLoggedIn ? (
         <Bars4Icon
           className="h-20 w-20 text-black cursor-pointer leading-none px-3 py-1 md:hidden outline-none focus:outline-none"
           onClick={() => setNavbarOpen(!navbarOpen)}
@@ -25,9 +26,11 @@ const Header: FC = () => {
           onClick={() => setNavbarOpen(!navbarOpen)}
         >
           <span className="justify-center">
-            {walletconnect.account.length > 0
+            {walletConnectState.provider?.accounts[0]
               ? shortenAddress(
-                  walletconnect.account.length > 0 ? walletconnect.account : ""
+                  walletConnectState.provider?.accounts[0]
+                    ? walletConnectState.provider?.accounts[0]
+                    : ""
                 )
               : ""}
           </span>
@@ -91,12 +94,12 @@ const Header: FC = () => {
                   </div>
                 </Link>
               </li>
-              {!isLoggedIn ? (
+              {!walletConnect.isLoggedIn ? (
                 <li>
                   <div
                     className="font-medium text-white hover:text-gray-600 px-5 py-3 flex items-center transition duration-150 ease-in-out cursor-pointer bg-gray-900 rounded-lg"
                     onClick={async () => {
-                      await onOpen();
+                      await open();
                       setNavbarOpen(false);
                     }}
                   >
@@ -116,7 +119,7 @@ const Header: FC = () => {
                     <div
                       className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out cursor-pointer"
                       onClick={async () => {
-                        await onClose();
+                        await walletConnect.onClose();
                         setNavbarOpen(false);
                       }}
                     >
@@ -125,10 +128,10 @@ const Header: FC = () => {
                   </li>
                   <li>
                     <div className="font-medium text-white hover:text-gray-600 px-2 py-2 flex items-center transition duration-150 ease-in-out cursor-pointer bg-gray-900 rounded-lg">
-                      {walletconnect.provider?.accounts[0]
+                      {walletConnectState.provider?.accounts[0]
                         ? shortenAddress(
-                            walletconnect.provider?.accounts[0]
-                              ? walletconnect.provider?.accounts[0]
+                            walletConnectState.provider?.accounts[0]
+                              ? walletConnectState.provider?.accounts[0]
                               : ""
                           )
                         : ""}

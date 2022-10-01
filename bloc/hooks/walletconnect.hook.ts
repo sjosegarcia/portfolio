@@ -1,57 +1,38 @@
-import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useEffect, useState } from "react";
 import { Subscription } from "rxjs/internal/Subscription";
 import { walletConnectQuery } from "../queries/walletconnect.query";
 import { walletConnectService } from "../services/walletconnect.service";
-interface WalletConnectHookState {
-  provider: WalletConnectProvider | null;
-  chainId: number | null;
-  account: string | null;
-  isLoading: boolean | null;
-  isConnected?: boolean | null;
-  error: any | null;
-}
+import { WalletConnectState } from "../store/walletconnect.store";
 
-export const useWalletConnect = (): [
-  WalletConnectHookState,
-  () => Promise<void>,
-  () => Promise<void>,
-  boolean
-] => {
-  const [walletConnect, setWalletConnect] = useState<WalletConnectHookState>({
+type WalletConnectHook = {
+  state: WalletConnectState;
+  onOpen: () => Promise<void>;
+  onClose: () => Promise<void>;
+  isLoggedIn: boolean;
+};
+
+export const useWalletConnect = (): WalletConnectHook => {
+  const [state, setState] = useState<WalletConnectState>({
     provider: null,
-    chainId: null,
-    account: null,
-    isLoading: null,
-    isConnected: null,
     error: null,
+    isLoading: null,
   });
   const onOpen = walletConnectService.openWalletConnect;
   const onClose = walletConnectService.closeWalletConnect;
   const isLoggedIn =
-    walletConnect.provider?.accounts !== undefined &&
-    walletConnect.provider?.accounts.length > 0;
+    state.provider?.accounts !== undefined &&
+    state.provider?.accounts.length > 0;
 
   useEffect(() => {
     const subscriptions: Subscription[] = [
-      walletConnectQuery.walletData$.subscribe((walletData) =>
-        setWalletConnect((state) => ({
-          ...state,
-          chainId: walletData[0],
-          account: walletData[1],
-        }))
-      ),
       walletConnectQuery.provider$.subscribe((provider) =>
-        setWalletConnect((state) => ({ ...state, provider: provider }))
+        setState((state) => ({ ...state, provider: provider }))
       ),
       walletConnectQuery.isLoading$.subscribe((isLoading) =>
-        setWalletConnect((state) => ({ ...state, isLoading: isLoading }))
+        setState((state) => ({ ...state, isLoading: isLoading }))
       ),
       walletConnectQuery.error$.subscribe((error) =>
-        setWalletConnect((state) => ({ ...state, error: error }))
-      ),
-      walletConnectQuery.isConnected$.subscribe((isConnected) =>
-        setWalletConnect((state) => ({ ...state, isConnected: isConnected }))
+        setState((state) => ({ ...state, error: error }))
       ),
     ];
 
@@ -59,5 +40,5 @@ export const useWalletConnect = (): [
       subscriptions.map((sub) => sub.unsubscribe());
     };
   }, []);
-  return [walletConnect, onOpen, onClose, isLoggedIn];
+  return { state, onOpen, onClose, isLoggedIn };
 };

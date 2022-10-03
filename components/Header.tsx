@@ -99,7 +99,7 @@ const Header: FC = () => {
                   <div
                     className="font-medium text-white hover:text-gray-600 px-5 py-3 flex items-center transition duration-150 ease-in-out cursor-pointer bg-gray-900 rounded-lg"
                     onClick={async () => {
-                      await walletConnect.onOpen();
+                      await walletConnect.onEnable();
                       setNavbarOpen(false);
                     }}
                   >

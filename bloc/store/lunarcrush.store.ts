@@ -1,3 +1,4 @@
+/*
 import { Store, StoreConfig } from "@datorama/akita";
 
 export interface LunarCrushState {
@@ -15,3 +16,4 @@ export class LunarCrushStore extends Store<LunarCrushState> {
 }
 
 export const lunarCrushStore = new LunarCrushStore();
+*/

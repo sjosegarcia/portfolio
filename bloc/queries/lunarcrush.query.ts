@@ -1,4 +1,4 @@
-import { Query } from "@datorama/akita";
+/*
 import { of, switchMap } from "rxjs";
 import { fromFetch } from "rxjs/fetch";
 import {
@@ -32,3 +32,4 @@ export class LunarCrushQuery extends Query<LunarCrushState> {
 }
 
 export const lunarCrushQuery = new LunarCrushQuery(lunarCrushStore);
+*/

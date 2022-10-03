@@ -1,3 +1,4 @@
+/*
 import { useEffect, useState } from "react";
 import { Subscription } from "rxjs";
 import { lunarCrushQuery } from "../queries/lunarcrush.query";
@@ -25,7 +26,6 @@ const useLunarCrush = (): LunarCrushState | undefined => {
 };
 
 export default useLunarCrush;
-/*
 
 
 */

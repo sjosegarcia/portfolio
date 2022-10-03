@@ -10,7 +10,7 @@ import { useImmer } from "use-immer";
 
 type WalletConnectHook = {
   state: WalletConnectState;
-  onClose: () => void;
+  onDisable: () => void;
   onEnable: () => Promise<void>;
   isLoggedIn: boolean;
 };
@@ -28,7 +28,7 @@ export const useWalletConnect = (): WalletConnectHook => {
     qrcode: true,
   });
 
-  const onClose = (): void => {
+  const onDisable = (): void => {
     walletConnectSubject.next(initialState);
   };
 
@@ -36,7 +36,7 @@ export const useWalletConnect = (): WalletConnectHook => {
     const provider = create;
     await provider?.enable().catch();
     provider?.connector.on("disconnect", (_error, payload) => {
-      onClose();
+      onDisable();
     });
 
     provider?.connector.on("session_update", (_error, payload) => {
@@ -59,5 +59,5 @@ export const useWalletConnect = (): WalletConnectHook => {
       subscriptions.map((sub) => sub.unsubscribe());
     };
   }, []);
-  return { state, onClose, onEnable, isLoggedIn };
+  return { state, onDisable, onEnable, isLoggedIn };
 };

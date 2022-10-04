@@ -28,6 +28,28 @@ export const useWalletConnect = (): WalletConnectHook => {
     sendInitialState();
   };
 
+  const setUpWalletConnectProvider = (
+    walletConnectProvider?: WalletConnectProvider
+  ) => {
+    switch (walletConnectProvider) {
+      case undefined:
+        break;
+      default:
+        walletConnectProvider.connector.on("disconnect", (_error, payload) => {
+          sendInitialState();
+        });
+
+        walletConnectProvider.connector.on(
+          "session_update",
+          (_error, payload) => {
+            const { chainId, accounts } = payload.params[0];
+            // state = { ...state, chainId: chainId, account: accounts[0] };
+          }
+        );
+    }
+    walletConnectSubject.next({ walletConnectProvider: walletConnectProvider });
+  };
+
   const onEnable = async (): Promise<void> => {
     const walletConnectProvider = new WalletConnectProvider({
       rpc: { 5: process.env.NEXT_PUBLIC_GOERLI_URL || "" },
@@ -42,17 +64,7 @@ export const useWalletConnect = (): WalletConnectHook => {
     const addressValid = (val: any): val is string[] => val;
 
     if (!addressValid(address)) return;
-
-    walletConnectProvider?.connector.on("disconnect", (_error, payload) => {
-      sendInitialState();
-    });
-
-    walletConnectProvider?.connector.on("session_update", (_error, payload) => {
-      const { chainId, accounts } = payload.params[0];
-      // state = { ...state, chainId: chainId, account: accounts[0] };
-    });
-
-    walletConnectSubject.next({ walletConnectProvider: walletConnectProvider });
+    setUpWalletConnectProvider(walletConnectProvider);
   };
 
   useEffect(() => {

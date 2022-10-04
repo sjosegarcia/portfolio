@@ -15,5 +15,5 @@ export default web3FormPublicAccessKey;
 
 export const getAbi$ = async (address: string) => {
   const url = `https://api.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`;
-  fromFetch(url).pipe(switchMap((response) => response.json()));
+  return fromFetch(url).pipe(switchMap((response) => response.json()));
 };

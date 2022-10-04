@@ -31,21 +31,19 @@ export const useWalletConnect = (): WalletConnectHook => {
   const setUpWalletConnectProvider = (
     walletConnectProvider?: WalletConnectProvider
   ) => {
-    switch (walletConnectProvider) {
-      case undefined:
-        break;
-      default:
-        walletConnectProvider.connector.on("disconnect", (_error, payload) => {
-          sendInitialState();
-        });
+    const validProvider = (val: any): val is WalletConnectProvider => val;
+    if (validProvider(walletConnectProvider)) {
+      walletConnectProvider.connector.on("disconnect", (_error, payload) => {
+        sendInitialState();
+      });
 
-        walletConnectProvider.connector.on(
-          "session_update",
-          (_error, payload) => {
-            const { chainId, accounts } = payload.params[0];
-            // state = { ...state, chainId: chainId, account: accounts[0] };
-          }
-        );
+      walletConnectProvider.connector.on(
+        "session_update",
+        (_error, payload) => {
+          const { chainId, accounts } = payload.params[0];
+          // state = { ...state, chainId: chainId, account: accounts[0] };
+        }
+      );
     }
     walletConnectSubject.next({ walletConnectProvider: walletConnectProvider });
   };

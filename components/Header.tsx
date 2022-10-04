@@ -12,7 +12,6 @@ const Header: FC = () => {
   const walletConnect = useWalletConnect();
   const walletConnectState = walletConnect.state;
   const [navbarOpen, setNavbarOpen] = useState(false);
-
   const loginFlow = () =>
     !navbarOpen ? (
       !walletConnect.isLoggedIn ? (

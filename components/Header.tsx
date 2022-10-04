@@ -7,10 +7,12 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/solid";
 import { shortenAddress } from "../settings";
+import { useEthers } from "../bloc/hooks/ethers.hook";
 
 const Header: FC = () => {
   const walletConnect = useWalletConnect();
   const walletConnectState = walletConnect.state;
+  const ethers = useEthers();
   const [navbarOpen, setNavbarOpen] = useState(false);
   const loginFlow = () =>
     !navbarOpen ? (

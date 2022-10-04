@@ -27,10 +27,10 @@ const Header: FC = () => {
           onClick={() => setNavbarOpen(!navbarOpen)}
         >
           <span className="justify-center">
-            {walletConnectState.provider?.accounts[0]
+            {walletConnectState.walletConnectProvider?.accounts[0]
               ? shortenAddress(
-                  walletConnectState.provider?.accounts[0]
-                    ? walletConnectState.provider?.accounts[0]
+                  walletConnectState.walletConnectProvider?.accounts[0]
+                    ? walletConnectState.walletConnectProvider?.accounts[0]
                     : ""
                 )
               : ""}
@@ -129,10 +129,12 @@ const Header: FC = () => {
                   </li>
                   <li>
                     <div className="font-medium text-white hover:text-gray-600 px-2 py-2 flex items-center transition duration-150 ease-in-out cursor-pointer bg-gray-900 rounded-lg">
-                      {walletConnectState.provider?.accounts[0]
+                      {walletConnectState.walletConnectProvider?.accounts[0]
                         ? shortenAddress(
-                            walletConnectState.provider?.accounts[0]
-                              ? walletConnectState.provider?.accounts[0]
+                            walletConnectState.walletConnectProvider
+                              ?.accounts[0]
+                              ? walletConnectState.walletConnectProvider
+                                  ?.accounts[0]
                               : ""
                           )
                         : ""}

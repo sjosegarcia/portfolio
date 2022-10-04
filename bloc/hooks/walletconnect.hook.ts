@@ -18,48 +18,48 @@ type WalletConnectHook = {
 export const useWalletConnect = (): WalletConnectHook => {
   const [state, setState] = useImmer<WalletConnectState>(initialState);
   const isLoggedIn =
-    state.provider?.accounts !== undefined &&
-    state.provider?.accounts.length > 0;
+    state.walletConnectProvider?.accounts !== undefined &&
+    state.walletConnectProvider?.accounts.length > 0;
 
   const sendInitialState = () => walletConnectSubject.next(initialState);
 
   const onDisable = async (): Promise<void> => {
-    await state.provider?.disconnect();
+    await state.walletConnectProvider?.disconnect();
     sendInitialState();
   };
 
   const onEnable = async (): Promise<void> => {
-    const provider = new WalletConnectProvider({
+    const walletConnectProvider = new WalletConnectProvider({
       rpc: { 5: process.env.NEXT_PUBLIC_GOERLI_URL || "" },
       infuraId: process.env.NEXT_PUBLIC_INFURA_ID || "",
       bridge: "https://bridge.walletconnect.org",
       qrcode: true,
     });
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const address = await provider?.enable().catch((_error) => {
+    const address = await walletConnectProvider?.enable().catch((_error) => {
       sendInitialState();
     });
     const addressValid = (val: any): val is string[] => val;
 
     if (!addressValid(address)) return;
 
-    provider?.connector.on("disconnect", (_error, payload) => {
+    walletConnectProvider?.connector.on("disconnect", (_error, payload) => {
       sendInitialState();
     });
 
-    provider?.connector.on("session_update", (_error, payload) => {
+    walletConnectProvider?.connector.on("session_update", (_error, payload) => {
       const { chainId, accounts } = payload.params[0];
       // state = { ...state, chainId: chainId, account: accounts[0] };
     });
 
-    walletConnectSubject.next({ provider: provider });
+    walletConnectSubject.next({ walletConnectProvider: walletConnectProvider });
   };
 
   useEffect(() => {
     const subscriptions: Subscription[] = [
       walletConnectSubject.subscribe((state) =>
         setState((draft) => {
-          draft.provider = state.provider;
+          draft.walletConnectProvider = state.walletConnectProvider;
         })
       ),
     ];

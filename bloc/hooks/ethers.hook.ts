@@ -19,15 +19,17 @@ export const useEthers = (): EthersHook => {
   useEffect(() => {
     const subscriptions: Subscription[] = [
       walletConnectSubject.subscribe((state) => {
-        const newProvider =
-          state.provider !== null ? new Web3Provider(state.provider) : null;
+        const newProvider = state.walletConnectProvider
+          ? new Web3Provider(state.walletConnectProvider)
+          : undefined;
         ethersSubject.next({
-          provider: newProvider,
+          web3Provider: newProvider,
         });
       }),
       ethersSubject.subscribe((state) =>
         setState((draft) => {
-          draft.provider = state.provider;
+          console.log(state.web3Provider);
+          draft.web3Provider = state.web3Provider;
         })
       ),
     ];

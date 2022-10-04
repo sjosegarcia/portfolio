@@ -56,12 +56,9 @@ export const useWalletConnect = (): WalletConnectHook => {
       qrcode: true,
     });
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const address = await walletConnectProvider?.enable().catch((_error) => {
+    await walletConnectProvider?.enable().catch((_error) => {
       sendInitialState();
     });
-    const addressValid = (val: any): val is string[] => val;
-
-    if (!addressValid(address)) return;
     setUpWalletConnectProvider(walletConnectProvider);
   };
 

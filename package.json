@@ -13,6 +13,7 @@
     "@heroicons/react": "^2.0.7",
     "@reduxjs/toolkit": "^1.8.5",
     "@uniswap/v3-core": "^1.0.1",
+    "@uniswap/v3-periphery": "^1.4.1",
     "@walletconnect/web3-provider": "^1.8.0",
     "immer": "^9.0.15",
     "next": "12.2.3",

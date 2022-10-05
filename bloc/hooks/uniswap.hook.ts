@@ -12,7 +12,7 @@ type PoolAddress = string;
 type PoolState =
   | {
       immutables: Immutables;
-      pool?: Pool;
+      pool: Pool;
     }
   | undefined;
 
@@ -83,23 +83,23 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
   };
 
   const priceIn = (amount: number) =>
-    state?.pool?.token0
-      ? ethers.utils.parseUnits(amount.toString(), state?.pool?.token0.decimals)
+    state?.pool.token0
+      ? ethers.utils.parseUnits(amount.toString(), state?.pool.token0.decimals)
       : undefined;
 
   const priceOut = (quote: any) =>
-    state?.pool?.token1
-      ? ethers.utils.formatUnits(quote, state?.pool?.token1.decimals)
+    state?.pool.token1
+      ? ethers.utils.formatUnits(quote, state?.pool.token1.decimals)
       : undefined;
 
   const priceInReverse = (amount: number) =>
-    state?.pool?.token1
-      ? ethers.utils.parseUnits(amount.toString(), state?.pool?.token1.decimals)
+    state?.pool.token1
+      ? ethers.utils.parseUnits(amount.toString(), state?.pool.token1.decimals)
       : undefined;
 
   const priceOutReverse = (quote: any) =>
-    state?.pool?.token0
-      ? ethers.utils.formatUnits(quote, state?.pool?.token0.decimals)
+    state?.pool.token0
+      ? ethers.utils.formatUnits(quote, state?.pool.token0.decimals)
       : undefined;
 
   const quoteIn = async (amount?: BigNumber) =>
@@ -147,16 +147,16 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
   const createPool = async (
     immutables: Immutables,
     state: State
-  ): Promise<Pool | undefined> => {
+  ): Promise<Pool> => {
     const tokenA = new Token(
-      web3Provider?.network.chainId,
+      web3Provider.network.chainId,
       immutables.token0,
       6,
       "USDC",
       "USD Coin"
     );
     const tokenB = new Token(
-      web3Provider?.network.chainId,
+      web3Provider.network.chainId,
       immutables.token1,
       18,
       "WETH",

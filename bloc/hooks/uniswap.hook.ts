@@ -7,7 +7,7 @@ import { ethers } from "ethers";
 import { abi as QuoterABI } from "@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json";
 import { useState } from "react";
 
-type UniswapHook = [() => Promise<void>] | undefined;
+type UniswapHook = [() => Promise<void>];
 type PoolAddress = string;
 type PoolState =
   | {
@@ -41,7 +41,9 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
   const ethersHookState = ethersHook.state;
   const web3Provider = ethersHookState.web3Provider;
   const [state, setState] = useState<PoolState>();
-  if (web3Provider === undefined) return;
+
+  const empty = (): Promise<void> => Promise.resolve();
+  if (web3Provider === undefined) return [empty];
 
   const poolContract = new ethers.Contract(
     poolAddress,

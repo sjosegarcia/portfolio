@@ -4,7 +4,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import {
   initialState,
   WalletConnectState,
-  walletConnectSubject,
+  walletConnectStore,
 } from "../store/walletconnect.store";
 import { useImmer } from "use-immer";
 
@@ -21,7 +21,7 @@ export const useWalletConnect = (): WalletConnectHook => {
     state.walletConnectProvider?.accounts !== undefined &&
     state.walletConnectProvider?.accounts.length > 0;
 
-  const sendInitialState = () => walletConnectSubject.next(initialState);
+  const sendInitialState = () => walletConnectStore.update(initialState);
 
   const onDisable = async (): Promise<void> => {
     await state.walletConnectProvider?.disconnect();
@@ -45,7 +45,7 @@ export const useWalletConnect = (): WalletConnectHook => {
         }
       );
     }
-    walletConnectSubject.next({ walletConnectProvider: walletConnectProvider });
+    walletConnectStore.update({ walletConnectProvider: walletConnectProvider });
   };
 
   const onEnable = async (): Promise<void> => {
@@ -64,7 +64,7 @@ export const useWalletConnect = (): WalletConnectHook => {
 
   useEffect(() => {
     const subscriptions: Subscription[] = [
-      walletConnectSubject.subscribe((state) =>
+      walletConnectStore.walletConnect$.subscribe((state) =>
         setState((draft) => {
           draft.walletConnectProvider = state.walletConnectProvider;
         })

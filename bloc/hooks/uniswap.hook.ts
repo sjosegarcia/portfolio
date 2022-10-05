@@ -136,13 +136,13 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
     return priceOutReverse(quoted);
   };
 
-  const swapCalculation = async (amount: number, reverse = false) => {
+  const priceCalculation = async (amount: number, reverse = false) => {
     if (!reverse) return await quotePrice(amount);
     return await quotePriceReverse(amount);
   };
 
   const swapPrice = async (amount: number, reverse?: boolean) =>
-    state?.immutables ? await swapCalculation(amount, reverse) : undefined;
+    state?.immutables ? await priceCalculation(amount, reverse) : undefined;
 
   const createPool = async (
     immutables: Immutables,

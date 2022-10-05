@@ -1,5 +1,5 @@
-import { Pool } from "@uniswap/v3-sdk/";
-import { Token } from "@uniswap/sdk-core";
+import { Pool, Route, Trade } from "@uniswap/v3-sdk/";
+import { CurrencyAmount, Token, TradeType } from "@uniswap/sdk-core";
 import { abi as IUniswapV3PoolABI } from "@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json";
 import { BigNumber } from "ethers/lib/ethers";
 import { useEthers } from "./ethers.hook";
@@ -12,6 +12,7 @@ type PoolAddress = string;
 type PoolState =
   | {
       immutables: Immutables;
+      poolState: State;
       pool: Pool;
     }
   | undefined;
@@ -82,27 +83,27 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
     };
   };
 
-  const priceIn = (amount: number) =>
+  const priceOut = (amount: number) =>
     state?.pool.token0
       ? ethers.utils.parseUnits(amount.toString(), state?.pool.token0.decimals)
       : undefined;
 
-  const priceOut = (quote: any) =>
+  const priceIn = (quote: any) =>
     state?.pool.token1
       ? ethers.utils.formatUnits(quote, state?.pool.token1.decimals)
       : undefined;
 
-  const priceInReverse = (amount: number) =>
+  const saleIn = (amount: number) =>
     state?.pool.token1
       ? ethers.utils.parseUnits(amount.toString(), state?.pool.token1.decimals)
       : undefined;
 
-  const priceOutReverse = (quote: any) =>
+  const saleOut = (quote: any) =>
     state?.pool.token0
       ? ethers.utils.formatUnits(quote, state?.pool.token0.decimals)
       : undefined;
 
-  const quoteIn = async (amount?: BigNumber) =>
+  const quoteOut = async (amount?: BigNumber) =>
     state?.immutables && amount
       ? await quoterContract.callStatic.quoteExactInputSingle(
           state.immutables.token0,
@@ -113,7 +114,7 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
         )
       : undefined;
 
-  const quoteOut = async (amount?: BigNumber) =>
+  const quoteIn = async (amount?: BigNumber) =>
     state?.immutables && amount
       ? await quoterContract.callStatic.quoteExactOutputSingle(
           state.immutables.token0,
@@ -124,21 +125,21 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
         )
       : undefined;
 
-  const quotePrice = async (amount: number) => {
-    const input = priceIn(amount);
-    const quoted = await quoteIn(input);
-    return priceOut(quoted);
+  const quotePriceOut = async (amount: number) => {
+    const input = priceOut(amount);
+    const quoted = await quoteOut(input);
+    return priceIn(quoted);
   };
 
-  const quotePriceReverse = async (amount: number) => {
-    const input = priceInReverse(amount);
-    const quoted = await quoteOut(input);
-    return priceOutReverse(quoted);
+  const quotePriceIn = async (amount: number) => {
+    const input = saleIn(amount);
+    const quoted = await quoteIn(input);
+    return saleOut(quoted);
   };
 
   const priceCalculation = async (amount: number, reverse = false) => {
-    if (!reverse) return await quotePrice(amount);
-    return await quotePriceReverse(amount);
+    if (!reverse) return await quotePriceOut(amount);
+    return await quotePriceIn(amount);
   };
 
   const swapPrice = async (amount: number, reverse?: boolean) =>
@@ -176,8 +177,25 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
     const immutables = await poolImmutables();
     const state = await poolState();
     const pool = await createPool(immutables, state);
-    setState({ immutables: immutables, pool: pool });
-    console.log(await swapPrice(2));
+    setState({ immutables: immutables, poolState: state, pool: pool });
+    console.log(await swapPrice(1, true));
+    console.log(await uncheckedTradeExample(1));
+  };
+
+  const uncheckedTradeExample = async (amount: number) => {
+    if (state?.pool === undefined) return;
+    const swapRoute = new Route(
+      [state?.pool],
+      state?.pool.token0,
+      state?.pool.token1
+    );
+    const quote = await quoteOut(priceOut(amount));
+    return await Trade.createUncheckedTrade({
+      route: swapRoute,
+      inputAmount: CurrencyAmount.fromRawAmount(state?.pool.token0, amount),
+      outputAmount: CurrencyAmount.fromRawAmount(state?.pool.token1, quote),
+      tradeType: TradeType.EXACT_INPUT,
+    });
   };
 
   return [performTest];

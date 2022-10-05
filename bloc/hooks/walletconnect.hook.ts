@@ -64,7 +64,7 @@ export const useWalletConnect = (): WalletConnectHook => {
 
   useEffect(() => {
     const subscriptions: Subscription[] = [
-      walletConnectStore.walletConnect$.subscribe((state) =>
+      walletConnectStore.value$.subscribe((state) =>
         setState((draft) => {
           draft.walletConnectProvider = state.walletConnectProvider;
         })

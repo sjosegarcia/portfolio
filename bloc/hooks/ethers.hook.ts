@@ -26,10 +26,10 @@ export const useEthers = (): EthersHook => {
 
   useEffect(() => {
     const subscriptions: Subscription[] = [
-      walletConnectStore.walletConnect$.subscribe((state) =>
+      walletConnectStore.value$.subscribe((state) =>
         setWeb3ProviderState(state)
       ),
-      ethersStore.ethers$.subscribe((state) =>
+      ethersStore.value$.subscribe((state) =>
         setState((draft) => {
           draft.web3Provider = state.web3Provider;
         })

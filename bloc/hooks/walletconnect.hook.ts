@@ -28,25 +28,38 @@ export const useWalletConnect = (): WalletConnectHook => {
     sendInitialState();
   };
 
-  const setUpWalletConnectProvider = (
+  const setupWalletConnect = (
     walletConnectProvider?: WalletConnectProvider
   ) => {
-    const validProvider = (val: any): val is WalletConnectProvider => val;
-    if (validProvider(walletConnectProvider)) {
-      walletConnectProvider.connector.on("disconnect", (_error, payload) => {
-        sendInitialState();
-      });
+    switch (walletConnectProvider) {
+      case undefined:
+        break;
+      default:
+        walletConnectProvider.connector.on(
+          "disconnect",
+          (_error: any, _payload: any) => {
+            sendInitialState();
+          }
+        );
 
-      walletConnectProvider.connector.on(
-        "session_update",
-        (_error, payload) => {
-          const { chainId, accounts } = payload.params[0];
-          // state = { ...state, chainId: chainId, account: accounts[0] };
-        }
-      );
+        walletConnectProvider.connector.on(
+          "session_update",
+          (_error: any, _payload: any) => {
+            // const { chainId, accounts } = _payload.params[0];
+            // state = { ...state, chainId: chainId, account: accounts[0] };
+          }
+        );
     }
-    walletConnectStore.update({ walletConnectProvider: walletConnectProvider });
   };
+
+  const enableWalletConnect = async (
+    walletConnectProvider?: WalletConnectProvider
+  ) =>
+    walletConnectProvider
+      ? await walletConnectProvider.enable().catch((_error) => {
+          sendInitialState();
+        })
+      : undefined;
 
   const onEnable = async (): Promise<void> => {
     const walletConnectProvider = new WalletConnectProvider({
@@ -55,11 +68,9 @@ export const useWalletConnect = (): WalletConnectHook => {
       bridge: "https://bridge.walletconnect.org",
       qrcode: true,
     });
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    await walletConnectProvider?.enable().catch((_error) => {
-      sendInitialState();
-    });
-    setUpWalletConnectProvider(walletConnectProvider);
+    await enableWalletConnect(walletConnectProvider);
+    setupWalletConnect(walletConnectProvider);
+    walletConnectStore.update({ walletConnectProvider: walletConnectProvider });
   };
 
   useEffect(() => {

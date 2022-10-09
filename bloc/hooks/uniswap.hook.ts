@@ -412,9 +412,10 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
       pool: pool,
       position: position,
     });
-
+    const address = await web3Provider.getSigner().getAddress();
     console.log(await swapPrice(1));
     console.log(await uncheckedTrade(1));
+    console.log(await createRoute(address, 1, pool));
     console.log(await mintLiquidity(position));
     console.log(await addLiquidity(position, 1));
     console.log(await removeLiquidity(position, 1, pool.token0, pool.token1));

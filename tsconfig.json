@@ -26,7 +26,8 @@
     "./components",
     "./typechain",
     "./test",
-    "./bloc"
+    "./bloc",
+    "./types"
   ],
   "exclude": ["node_modules", "./contracts", "./public", "./cache"],
   "files": ["./hardhat.config.ts"]

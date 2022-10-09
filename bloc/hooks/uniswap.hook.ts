@@ -1,50 +1,57 @@
-import { Pool, Route, Trade } from "@uniswap/v3-sdk/";
-import { CurrencyAmount, Token, TradeType } from "@uniswap/sdk-core";
+import {
+  nearestUsableTick,
+  NonfungiblePositionManager,
+  Pool,
+  Position,
+  Route,
+  Trade,
+} from "@uniswap/v3-sdk/";
+import {
+  CurrencyAmount,
+  Fraction,
+  Percent,
+  Token,
+  TradeType,
+} from "@uniswap/sdk-core";
 import { abi as IUniswapV3PoolABI } from "@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json";
+import { abi as IUniswapV3FactoryABI } from "@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Factory.sol/IUniswapV3Factory.json";
 import { BigNumber } from "ethers/lib/ethers";
-import { useEthers } from "./ethers.hook";
 import { ethers } from "ethers";
 import { abi as QuoterABI } from "@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json";
 import { useState } from "react";
-
-type UniswapHook = [() => Promise<void>];
-type PoolAddress = string;
-type PoolState =
-  | {
-      immutables: Immutables;
-      poolState: State;
-      pool: Pool;
-    }
-  | undefined;
-
-type Immutables = {
-  factory: string;
-  token0: string;
-  token1: string;
-  fee: number;
-  tickSpacing: number;
-  maxLiquidityPerTick: BigNumber;
-};
-
-type State = {
-  liquidity: BigNumber;
-  sqrtPriceX96: BigNumber;
-  tick: number;
-  observationIndex: number;
-  observationCardinality: number;
-  observationCardinalityNext: number;
-  feeProtocol: number;
-  unlocked: boolean;
-};
+import {
+  AlphaRouter,
+  SwapRoute,
+  SwapToRatioRoute,
+} from "@uniswap/smart-order-router";
+import {
+  PoolAddress,
+  UniswapHook,
+  PoolState,
+  Immutables,
+  State,
+  Swap,
+  Flash,
+} from "../../types/uniswap.types";
+import { useEthers } from "./ethers.hook";
 
 export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
-  const ethersHook = useEthers();
-  const ethersHookState = ethersHook.state;
-  const web3Provider = ethersHookState.web3Provider;
   const [state, setState] = useState<PoolState>();
+  const V3_FACTORY_ADDRESS = "0x1F98431c8aD98523631AE4a59f267346ea31F984";
+  const V3_SWAP_ROUTER_ADDRESS = "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45";
+  const V3_QUOTER_ADDRESS = "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6";
+  const web3Provider = useEthers().state.web3Provider;
 
-  const empty = (): Promise<void> => Promise.resolve();
-  if (web3Provider === undefined) return [empty];
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  if (web3Provider === undefined) return [() => {}];
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  if (web3Provider.network === undefined) return [() => {}];
+
+  const factoryContract = new ethers.Contract(
+    V3_FACTORY_ADDRESS,
+    IUniswapV3FactoryABI,
+    web3Provider
+  );
 
   const poolContract = new ethers.Contract(
     poolAddress,
@@ -52,13 +59,44 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
     web3Provider
   );
 
+  poolContract.on(
+    "Flash",
+    (sender, recipient, amount0, amount1, paid0, paid1) => {
+      const flash: Flash = {
+        sender: sender,
+        recipient: recipient,
+        amount0: amount0,
+        amount1: amount1,
+        paid0: paid0,
+        paid1: paid1,
+      };
+      console.log(flash);
+    }
+  );
+
+  poolContract.on(
+    "Swap",
+    (sender, recipient, amount0, amount1, sqrtPriceX96, liquidity, tick) => {
+      const swap: Swap = {
+        sender: sender,
+        recipient: recipient,
+        amount0: amount0,
+        amount1: amount1,
+        sqrtPriceX96: sqrtPriceX96,
+        liquidity: liquidity,
+        tick: tick,
+      };
+      // console.log(swap);
+    }
+  );
+
   const quoterContract = new ethers.Contract(
-    "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",
+    V3_QUOTER_ADDRESS,
     QuoterABI,
     web3Provider
   );
 
-  const poolImmutables = async (): Promise<Immutables> => {
+  const getPoolImmutables = async (): Promise<Immutables> => {
     return {
       factory: await poolContract.factory(),
       token0: await poolContract.token0(),
@@ -69,7 +107,7 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
     };
   };
 
-  const poolState = async (): Promise<State> => {
+  const getPoolState = async (): Promise<State> => {
     const slot = await poolContract.slot0();
     return {
       liquidity: await poolContract.liquidity(),
@@ -83,81 +121,87 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
     };
   };
 
+  const priceOutWithData = (amount: number | string, token: Token) =>
+    ethers.utils.parseUnits(amount.toString(), token.decimals);
+
   const priceOut = (amount: number) =>
-    state?.pool.token0
-      ? ethers.utils.parseUnits(amount.toString(), state?.pool.token0.decimals)
-      : undefined;
+    state?.pool ? priceOutWithData(amount, state?.pool.token0) : undefined;
+
+  const priceInWithData = (quote: any, token: Token) =>
+    ethers.utils.formatUnits(quote, token.decimals);
 
   const priceIn = (quote: any) =>
-    state?.pool.token1
-      ? ethers.utils.formatUnits(quote, state?.pool.token1.decimals)
-      : undefined;
+    state?.pool.token1 ? priceInWithData(quote, state?.pool.token1) : undefined;
+
+  const saleInWithData = (amount: number, token: Token) =>
+    ethers.utils.parseUnits(amount.toString(), token.decimals);
 
   const saleIn = (amount: number) =>
-    state?.pool.token1
-      ? ethers.utils.parseUnits(amount.toString(), state?.pool.token1.decimals)
-      : undefined;
+    state?.pool.token1 ? saleInWithData(amount, state?.pool.token1) : undefined;
+
+  const saleOutWithData = (quote: any, token: Token) =>
+    ethers.utils.formatUnits(quote, token.decimals);
 
   const saleOut = (quote: any) =>
-    state?.pool.token0
-      ? ethers.utils.formatUnits(quote, state?.pool.token0.decimals)
-      : undefined;
+    state?.pool.token0 ? saleOutWithData(quote, state?.pool.token0) : undefined;
 
-  const quoteOut = async (amount?: BigNumber) =>
-    state?.immutables && amount
-      ? await quoterContract.callStatic.quoteExactInputSingle(
-          state.immutables.token0,
-          state.immutables.token1,
-          state.immutables.fee,
-          amount,
-          0
-        )
-      : undefined;
-
-  const quoteIn = async (amount?: BigNumber) =>
-    state?.immutables && amount
-      ? await quoterContract.callStatic.quoteExactOutputSingle(
-          state.immutables.token0,
-          state.immutables.token1,
-          state.immutables.fee,
-          amount,
-          0
-        )
-      : undefined;
-
-  const quotePriceOut = async (amount: number) => {
-    const input = priceOut(amount);
-    const quoted = await quoteOut(input);
-    return priceIn(quoted);
-  };
-
-  const quotePriceIn = async (amount: number) => {
-    const input = saleIn(amount);
-    const quoted = await quoteIn(input);
-    return saleOut(quoted);
-  };
-
-  const priceCalculation = async (amount: number, reverse = false) => {
-    if (!reverse) return await quotePriceOut(amount);
-    return await quotePriceIn(amount);
-  };
-
-  const swapPrice = async (amount: number, reverse?: boolean) =>
-    state?.immutables ? await priceCalculation(amount, reverse) : undefined;
-
-  const createPool = async (
-    immutables: Immutables,
-    state: State
-  ): Promise<Pool> => {
-    const tokenA = new Token(
-      web3Provider.network.chainId,
-      immutables.token0,
-      6,
-      "USDC",
-      "USD Coin"
+  const quoteOutWithData = async (amount: number, pool: Pool) => {
+    const input = priceOutWithData(amount, pool.token0);
+    const quoted = await quoterContract.callStatic.quoteExactInputSingle(
+      pool.token0.address,
+      pool.token1.address,
+      pool.fee,
+      input,
+      0
     );
+    return priceInWithData(quoted, pool.token1);
+  };
+
+  const quoteOut = async (amount: number) =>
+    state?.pool ? await quoteOutWithData(amount, state.pool) : undefined;
+
+  const quoteInWithData = async (amount: number, pool: Pool) => {
+    const output = saleInWithData(amount, pool.token1);
+    const quoted = await quoterContract.callStatic.quoteExactOutputSingle(
+      pool.token0.address,
+      pool.token1.address,
+      pool.fee,
+      output,
+      0
+    );
+
+    return saleOutWithData(quoted, pool.token0);
+  };
+
+  const quoteIn = async (amount: number) =>
+    state?.pool ? await quoteInWithData(amount, state.pool) : undefined;
+
+  const swapPriceWithData = async (
+    amount: number,
+    pool: Pool,
+    reverse = false
+  ) =>
+    !reverse
+      ? await quoteOutWithData(amount, pool)
+      : await quoteInWithData(amount, pool);
+
+  const swapPrice = async (amount: number, reverse = false) =>
+    state?.pool
+      ? !reverse
+        ? await quoteOutWithData(amount, state.pool)
+        : await quoteInWithData(amount, state.pool)
+      : undefined;
+
+  const createPool = () =>
+    state?.immutables && state?.poolState
+      ? createPoolWithData(state?.immutables, state?.poolState)
+      : undefined;
+
+  const createPoolWithData = (immutables: Immutables, state: State): Pool => {
+    const chainId = web3Provider.network.chainId;
+    const tokenA = new Token(chainId, immutables.token0, 6, "USDC", "USD Coin");
     const tokenB = new Token(
-      web3Provider.network.chainId,
+      chainId,
       immutables.token1,
       18,
       "WETH",
@@ -173,60 +217,25 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
     );
   };
 
-  const performTest = async () => {
-    const immutables = await poolImmutables();
-    const state = await poolState();
-    const pool = await createPool(immutables, state);
-    setState({ immutables: immutables, poolState: state, pool: pool });
-    console.log(await swapPrice(1, true));
-    console.log(await uncheckedTradeExample(1));
-  };
+  const createPosition = (liquidity: number) =>
+    state?.immutables && state?.poolState && state?.pool
+      ? createPositionWithData(
+          state.pool,
+          state.poolState,
+          state.immutables,
+          liquidity
+        )
+      : undefined;
 
-  const uncheckedTradeExample = async (amount: number) => {
-    if (state?.pool === undefined) return;
-    const swapRoute = new Route(
-      [state?.pool],
-      state?.pool.token0,
-      state?.pool.token1
-    );
-    const quote = await quoteOut(priceOut(amount));
-    return await Trade.createUncheckedTrade({
-      route: swapRoute,
-      inputAmount: CurrencyAmount.fromRawAmount(state?.pool.token0, amount),
-      outputAmount: CurrencyAmount.fromRawAmount(state?.pool.token1, quote),
-      tradeType: TradeType.EXACT_INPUT,
-    });
-  };
-
-  return [performTest];
-};
-
-/*
-
-  const liquidityExamples = async (sender: string, exampleType: number) => {
-    const immutables = await getPoolImmutables();
-    const state = await getPoolState();
-    const DAI = new Token(1, immutables.token0, 18, "DAI", "Stablecoin");
-    const USDC = new Token(1, immutables.token1, 18, "USDC", "USD Coin");
-    const block = await web3Provider.getBlock(web3Provider.getBlockNumber());
-    const deadline = block.timestamp + 200;
-
-    // create a pool
-    const DAI_USDC_POOL = new Pool(
-      DAI,
-      USDC,
-      immutables.fee,
-      state.sqrtPriceX96.toString(),
-      state.liquidity.toString(),
-      state.tick
-    );
-
-    // create a position with the pool
-    // the position is in-range, specified by the lower and upper tick
-    // in this example, we will set the liquidity parameter to a small percentage of the current liquidity
-    const position = new Position({
-      pool: DAI_USDC_POOL,
-      liquidity: state.liquidity.div(5000).toString(),
+  const createPositionWithData = (
+    pool: Pool,
+    state: State,
+    immutables: Immutables,
+    liquidity: number
+  ) =>
+    new Position({
+      pool: pool,
+      liquidity: liquidity,
       tickLower:
         nearestUsableTick(state.tick, immutables.tickSpacing) -
         immutables.tickSpacing * 2,
@@ -235,44 +244,191 @@ export const useUniswap = (poolAddress: PoolAddress): UniswapHook => {
         immutables.tickSpacing * 2,
     });
 
-    // Example 0: Setting up calldata for minting a Position
-    if (exampleType === 0) {
-      const { calldata, value } = NonfungiblePositionManager.addCallParameters(
-        position,
-        {
-          slippageTolerance: new Percent(50, 10000),
-          recipient: sender,
-          deadline: deadline,
-        }
-      );
-    }
+  const mintLiquidity = async (position: Position) => {
+    const block = await web3Provider.getBlock(web3Provider.getBlockNumber());
+    const deadline = block.timestamp + 200;
+    return NonfungiblePositionManager.addCallParameters(position, {
+      slippageTolerance: new Percent(50, 10000),
+      recipient: await web3Provider.getSigner().getAddress(),
+      deadline: deadline,
+    });
+  };
 
-    // Example 1: Setting up calldata for adding liquidity to Position
-    if (exampleType === 1) {
-      const { calldata, value } = NonfungiblePositionManager.addCallParameters(
-        position,
-        {
-          slippageTolerance: new Percent(50, 10000),
-          deadline: deadline,
-          tokenId: 1,
-        }
-      );
-    }
+  const addLiquidity = async (position: Position, tokenId: number) => {
+    const block = await web3Provider.getBlock(web3Provider.getBlockNumber());
+    const deadline = block.timestamp + 200;
+    return NonfungiblePositionManager.addCallParameters(position, {
+      slippageTolerance: new Percent(50, 10000),
+      deadline: deadline,
+      tokenId: tokenId,
+    });
+  };
 
-    // Example 2: Setting up calldata for removing liquidity from Position
-    if (exampleType === 2) {
-      const { calldata, value } =
-        NonfungiblePositionManager.removeCallParameters(position, {
-          tokenId: 1,
-          liquidityPercentage: new Percent(1),
-          slippageTolerance: new Percent(50, 10000),
-          deadline: deadline,
-          collectOptions: {
-            expectedCurrencyOwed0: CurrencyAmount.fromRawAmount(DAI, 0),
-            expectedCurrencyOwed1: CurrencyAmount.fromRawAmount(USDC, 0),
-            recipient: sender,
-          },
-        });
-    }
-  }; 
-  */
+  const removeLiquidity = async (
+    position: Position,
+    tokenId: number,
+    token0: Token,
+    token1: Token
+  ) => {
+    const block = await web3Provider.getBlock(web3Provider.getBlockNumber());
+    const deadline = block.timestamp + 200;
+    const sender = await web3Provider.getSigner().getAddress();
+    return NonfungiblePositionManager.removeCallParameters(position, {
+      tokenId: tokenId,
+      liquidityPercentage: new Percent(1),
+      slippageTolerance: new Percent(50, 10_000),
+      deadline: deadline,
+      collectOptions: {
+        expectedCurrencyOwed0: CurrencyAmount.fromRawAmount(token0, 0),
+        expectedCurrencyOwed1: CurrencyAmount.fromRawAmount(token1, 0),
+        recipient: sender,
+      },
+    });
+  };
+
+  const router = new AlphaRouter({
+    chainId: web3Provider.network.chainId,
+    provider: web3Provider,
+  });
+
+  const createRoute = async (
+    recipient: string,
+    amount: number,
+    pool: Pool,
+    reverse = false
+  ) =>
+    (await router.route(
+      CurrencyAmount.fromRawAmount(pool.token0, amount),
+      pool.token1,
+      reverse ? TradeType.EXACT_OUTPUT : TradeType.EXACT_INPUT,
+      {
+        recipient: recipient,
+        slippageTolerance: new Percent(5, 100),
+        deadline: Math.floor(Date.now() / 1000 + 1800),
+      }
+    )) ?? undefined;
+
+  const routeToRatioResponse = async (
+    tokenId: number,
+    position: Position,
+    token0: Token,
+    token1: Token,
+    token0Balance: number,
+    token1Balance: number
+  ) => {
+    const address = await web3Provider.getSigner().getAddress();
+    return await router.routeToRatio(
+      CurrencyAmount.fromRawAmount(token0, token0Balance),
+      CurrencyAmount.fromRawAmount(token1, token1Balance),
+      position,
+      {
+        ratioErrorTolerance: new Fraction(1, 100),
+        maxIterations: 6,
+      },
+      {
+        swapOptions: {
+          recipient: address,
+          slippageTolerance: new Percent(5, 100),
+          deadline: 100,
+        },
+        addLiquidityOptions: {
+          tokenId: tokenId,
+        },
+      }
+    );
+  };
+
+  const createTxn = (sender: string, route?: SwapRoute | SwapToRatioRoute) =>
+    route && route.methodParameters
+      ? {
+          data: route.methodParameters.calldata,
+          to: V3_SWAP_ROUTER_ADDRESS,
+          value: BigNumber.from(route.methodParameters.value),
+          from: sender,
+          gasPrice: BigNumber.from(route.gasPriceWei),
+        }
+      : undefined;
+
+  const submitSwapRoute = async (
+    amount: number,
+    pool: Pool,
+    reverse = false
+  ) => {
+    const signer = web3Provider.getSigner();
+    const address = await signer.getAddress();
+    const route = await createRoute(address, amount, pool, reverse);
+    const txn = createTxn(address, route);
+    return txn ? await signer.sendTransaction(txn) : undefined;
+  };
+
+  const sumbit = async (amount: number, send = false, reverse = false) =>
+    state?.pool && send
+      ? await submitSwapRoute(amount, state.pool, reverse)
+      : undefined;
+
+  const performUncheckedTrade = async (
+    amount: number,
+    pools: Pool[],
+    token0: Token,
+    token1: Token,
+    reverse = false
+  ) => {
+    const swapRoute = new Route(pools, token0, token1);
+    const quote = await quoteInWithData(amount, pools[0]); // for now
+    const price = priceOutWithData(quote, token0);
+    return await Trade.createUncheckedTrade({
+      route: swapRoute,
+      inputAmount: CurrencyAmount.fromRawAmount(
+        !reverse ? token0 : token1,
+        amount
+      ),
+      outputAmount: CurrencyAmount.fromRawAmount(
+        !reverse ? token1 : token0,
+        price.toString()
+      ),
+      tradeType: TradeType.EXACT_INPUT,
+    });
+  };
+
+  const uncheckedTrade = async (amount: number, reverse = false) =>
+    state?.pool
+      ? performUncheckedTrade(
+          amount,
+          [state.pool], // for now
+          state.pool.token0,
+          state.pool.token1,
+          reverse
+        )
+      : undefined;
+
+  const test = async () => {
+    const immutables = await getPoolImmutables();
+    const state = await getPoolState();
+    const pool = createPoolWithData(immutables, state);
+    const position = createPositionWithData(pool, state, immutables, 1);
+    setState({
+      immutables: immutables,
+      poolState: state,
+      pool: pool,
+      position: position,
+    });
+
+    console.log(await swapPrice(1));
+    console.log(await uncheckedTrade(1));
+    console.log(await mintLiquidity(position));
+    console.log(await addLiquidity(position, 1));
+    console.log(await removeLiquidity(position, 1, pool.token0, pool.token1));
+    console.log(
+      await routeToRatioResponse(
+        1,
+        position,
+        pool.token0,
+        pool.token1,
+        10000,
+        0
+      )
+    );
+  };
+
+  return [test];
+};
